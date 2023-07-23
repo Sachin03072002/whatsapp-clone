@@ -1,0 +1,170 @@
+.homeMain {
+  height: 100vh;
+  overflow: hidden;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background: linear-gradient(to bottom, rgb(3, 62, 7), rgb(9, 79, 6));
+}
+
+input {
+  width: 40vw;
+  height: 2rem;
+  border: none;
+  background: transparent;
+  border-bottom: 2px solid black;
+  padding: 0.2rem;
+  margin: 1rem;
+  color: white;
+}
+button {
+  width: 6rem;
+  height: 2rem;
+  margin: 1rem;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+button:hover {
+  text-decoration: underline;
+}
+button a {
+  color: white;
+}
+.homeImg {
+  margin: 0;
+  height: auto;
+  width: 100vw;
+  background-blend-mode: lighten;
+  max-width: 300px;
+  animation: slide 1s linear infinite alternate;
+}
+
+.DpImg {
+  margin: 0;
+  height: 50vh;
+  position: relative;
+  left: -4rem;
+  width: 50vw;
+  background-blend-mode: lighten;
+  max-width: 300px;
+  border-radius: 50%;
+  animation: slide 1s linear infinite alternate;
+}
+@keyframes slide {
+  0% {
+    transform: scale(0.95);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.homeSection {
+  background: linear-gradient(to bottom, rgb(3, 62, 7), rgb(9, 79, 6));
+  height: 100vh;
+  overflow: hidden;
+  padding: 10%;
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.homeForm {
+  width: 350px;
+}
+
+.Dpform {
+  height: 10rem;
+  width: 10rem;
+  position: relative;
+  top: -13rem;
+}
+.Dpform:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.DetailsForm {
+  top: -7rem;
+  position: relative;
+}
+.button-signup {
+  width: 22rem;
+  cursor: pointer;
+  color: white;
+}
+
+@media screen and (max-width: 600px) {
+  /* .homeMain {
+    border: 2px solid red;
+  } */
+  input {
+    width: 50vw;
+  }
+  .Dpform {
+    top: -2rem;
+    height: 2rem;
+    width: 8rem;
+  }
+  .DpImg {
+    height: 5rem;
+    width: 5rem;
+  }
+  .DetailsForm {
+    top: 7rem;
+    height: 30rem;
+  }
+}
+@media screen and (max-width: 1000px) {
+  /* .homeMain {
+    border: 2px solid black;
+  } */
+  input {
+    width: 82vw;
+    margin: 0;
+  }
+  .Dpform {
+    top: -2rem;
+    height: 8rem;
+    width: 8rem;
+  }
+  .DpImg {
+    height: 14rem;
+    width: 14rem;
+    left: -3rem;
+    position: relative;
+  }
+  .DetailsForm {
+    top: 7rem;
+    width: 86%;
+    height: 30rem;
+  }
+}
+@media screen and (max-width: 300px) {
+  /* .homeMain {
+    border: 2px solid yellow;
+  } */
+  input {
+    width: 82vw;
+  }
+  .Dpform {
+    top: -2rem;
+    height: 8rem;
+    width: 8rem;
+  }
+  .DpImg {
+    height: 4rem;
+    width: 4rem;
+    left: 27%;
+  }
+  .DetailsForm {
+    top: -1rem;
+  }
+}
