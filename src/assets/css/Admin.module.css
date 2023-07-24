@@ -1,0 +1,45 @@
+.box {
+  background-color: #0f3e12;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  transition: all 0.25s ease-in-out;
+  border-radius: 1rem;
+  padding: 10px;
+  width: 2%;
+  height: 81%;
+  position: fixed;
+}
+
+.H1 {
+  font-weight: 100;
+  font-size: 3rem;
+  margin: 0.5rem 0;
+  text-align: center;
+  color: aliceblue;
+}
+
+.insideDiv {
+  flex-grow: 1;
+}
+
+.outsideDiv {
+  margin-right: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.img {
+  width: 2.5rem;
+  border-radius: 50%;
+  height: 2.5rem;
+  position: absolute;
+  display: flex;
+  left: 2px;
+  bottom: 18px;
+}
+.img:hover {
+  border: 1px solid white;
+  cursor: pointer;
+}
