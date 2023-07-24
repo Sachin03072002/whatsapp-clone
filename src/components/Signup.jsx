@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Styles from "../assets/css/HomePage.module.css";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
-import { createNotification } from "../index";
 import { useNavigate } from "react-router-dom"; // Import Redirect for redirection
 import { v4 as uuidv4 } from "uuid";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 function Signup() {
   const [dpPreview, setDpPreview] = useState(
@@ -47,7 +51,9 @@ function Signup() {
       if (userAvailable.docs.length > 0) {
         //notification
         navigate("/");
-        alert("Email already exists");
+        setTimeout(() => {
+          NotificationManager.success("User Already Exist", "Success");
+        }, 1000);
       } else {
         const newUserRef = await firebase
           .firestore()
@@ -55,13 +61,15 @@ function Signup() {
           .add(userData);
         console.log("New user Added", newUserRef.id);
         navigate("/");
+        setTimeout(() => {
+          NotificationManager.success("User Added Successfully", "Success");
+        }, 1000);
       }
     } else {
       //notification
-      createNotification(
-        "error",
-        "Password and Confirm Password do not match!"
-      );
+      setTimeout(() => {
+        NotificationManager.error("Invalid Credentials", "Error");
+      }, 1000);
     }
     event.target.reset();
 
@@ -80,6 +88,7 @@ function Signup() {
 
   return (
     <React.Fragment>
+      <NotificationContainer />
       <main className={Styles.homeMain}>
         <h1>Create New Account..</h1>
         <section className={Styles.homeSection}>
@@ -124,6 +133,11 @@ function Signup() {
             <input type="password" name="confirmPassword" required />
             <br />
             <button type="submit">Submit</button>
+            <button>
+              <a href="/" onClick={navigate("/")}>
+                Login
+              </a>
+            </button>
           </form>
         </section>
       </main>

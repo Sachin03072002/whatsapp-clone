@@ -8,6 +8,9 @@
   align-items: center;
   background: linear-gradient(to bottom, rgb(3, 62, 7), rgb(9, 79, 6));
 }
+label {
+  color: white;
+}
 
 input {
   width: 40vw;

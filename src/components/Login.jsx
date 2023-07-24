@@ -3,6 +3,11 @@ import Styles from "../assets/css/HomePage.module.css";
 import { useNavigate } from "react-router-dom";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 function Login() {
   const [emailId, setEmailId] = useState();
   const [password, setPassword] = useState();
@@ -15,6 +20,9 @@ function Login() {
       console.log(emailId);
       console.log(password);
       console.error("emailId and password are required.");
+      setTimeout(() => {
+        NotificationManager.error("Credentials Required", "Error");
+      }, 1000);
       return;
     }
 
@@ -25,26 +33,40 @@ function Login() {
       .where("email", "==", emailId)
       .where("password", "==", password)
       .get();
-
+    let passwordMatch = false;
     if (snapshot.docs.length > 0) {
+      passwordMatch = true;
       console.log(snapshot.docs);
       const docId = snapshot.docs[0].id;
       const doc = snapshot.docs[0].data();
       console.log(doc);
-      navigate(`/whatsapp/${doc.id}`);
+      setTimeout(() => {
+        NotificationManager.success("Successfully Logged In..", "Success");
+      }, 1000);
+      navigate(`/whatsappweb/${doc.id}`);
       await firebase
         .firestore()
         .collection("users")
         .doc(docId)
         .update({ status: true });
     } else {
-      navigate("/whatsappweb/signup");
-      console.log("redirected");
+      if (snapshot.docs.length > 0 && passwordMatch === false) {
+        setTimeout(() => {
+          NotificationManager.error("Incorrect Password", "Error");
+        }, 1000);
+      } else {
+        setTimeout(() => {
+          NotificationManager.error("User Not Found", "Error");
+        }, 1000);
+        navigate("/whatsappweb/signup");
+        console.log("redirected");
+      }
     }
   }
 
   return (
     <div>
+      <NotificationContainer />
       <form className={Styles.homeForm} onSubmit={onSubmitHandler}>
         <h1>Welcome to Whatsapp</h1>
         <input
