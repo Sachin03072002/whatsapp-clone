@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Styles from "../assets/css/ChatLayout.module.css";
-import { useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import Admin from "./Admin";
@@ -55,7 +55,6 @@ function ChatLayout() {
         setIsLoading(false);
       }
     }, 1000);
-    console.log(LogInUserData);
     return () => {
       clearInterval(intervalId);
       clearInterval(friendIntervalId);
@@ -96,9 +95,9 @@ function ChatLayout() {
                     UserName={item.name}
                     UserPhoto={item.photo}
                     UserLastMsg="Hello Buddy"
-                    // backColor={item.backColor}
+                    backColor={item.backColor}
                     userOnline={item.friendOnline}
-                    // lastMessage={item.lastMessage}
+                    lastMessage={item.lastMessage}
                   />
                 ))
               ) : (
@@ -107,7 +106,9 @@ function ChatLayout() {
             </div>
           </div>
         </aside>
-        <div className={Styles.chatBox}>{/* <Outlet /> */}</div>
+        <div className={Styles.chatBox}>
+          <Outlet />
+        </div>
       </section>
     </main>
   );
