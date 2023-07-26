@@ -1,8 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Styles from "../assets/css/Admin.module.css";
+import Profile from "./Profile";
+
 function Admin({ adminId, adminName, adminPhoto, status }) {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
+
+  // Handle the click event on the image
+  const handleImageClick = () => {
+    navigate(`/whatsapp-web/profile/${adminId}`);
+  };
+
   return (
     <React.Fragment>
       <div className={Styles.box}>
@@ -10,22 +18,8 @@ function Admin({ adminId, adminName, adminPhoto, status }) {
           src={adminPhoto}
           alt="."
           className={Styles.img}
-          // onClick={Navigate()}
+          onClick={handleImageClick} // Add onClick handler to call handleImageClick
         />
-
-        {/* <div className={Styles.insideDiv}>
-          <h5 className={Styles.H1}>{adminName}</h5>
-          <div className={Styles.outsideDiv}>
-            <button
-              //   onClick={onLogOutHandle
-              type="button"
-              className="btn btn-danger my-2"
-            >
-              <i className="fa-solid fa-right-from-bracket">&nbsp; Logout</i>
-            </button>
-          </div>
-        </div> */}
-        {/* <hr /> */}
       </div>
     </React.Fragment>
   );

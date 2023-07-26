@@ -8,6 +8,7 @@ import FriendAside from "./FriendAside";
 function ChatLayout() {
   const params = useParams();
   const adminId = params.AdminId;
+  console.log(adminId);
   const [userFriendData, setUserFriendData] = useState([]);
   const [LogInUserData, setLogInUserData] = useState([]);
   const [adminData, setAdminData] = useState(null);
@@ -91,13 +92,10 @@ function ChatLayout() {
                 LogInUserData.map((item, i) => (
                   <FriendAside
                     key={i}
-                    userId={item.id}
+                    UserId={item.id}
                     UserName={item.name}
                     UserPhoto={item.photo}
-                    UserLastMsg="Hello Buddy"
-                    backColor={item.backColor}
-                    userOnline={item.friendOnline}
-                    lastMessage={item.lastMessage}
+                    UserOnline={item.status}
                   />
                 ))
               ) : (

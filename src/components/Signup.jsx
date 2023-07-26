@@ -100,6 +100,7 @@ function Signup() {
                 id="dpInput"
                 accept="image/*"
                 style={{ display: "none" }}
+                className={Styles.input}
                 onChange={handleFileChange}
               />
             </label>
@@ -111,7 +112,9 @@ function Signup() {
               />
             )}
             <br />
-            <button type="submit">Upload</button>
+            <button type="submit" className={Styles.button}>
+              Upload
+            </button>
           </form>
           <form
             onSubmit={handleUserDetailsSubmit}
@@ -119,21 +122,43 @@ function Signup() {
           >
             <label htmlFor="name">
               Full Name:&nbsp;
-              <input type="text" name="name" required />
+              <input
+                type="text"
+                name="name"
+                className={Styles.input}
+                required
+              />
             </label>
             <br />
             <label htmlFor="email">Email Address:</label>&nbsp;
-            <input type="email" name="email" required />
+            <input
+              type="email"
+              name="email"
+              className={Styles.input}
+              required
+            />
             <br />
             <label htmlFor="password">Password:</label>&emsp;
-            <input type="password" name="password" required />
+            <input
+              type="password"
+              name="password"
+              className={Styles.input}
+              required
+            />
             <br />
             <label htmlFor="confirmPassword">Confirm Password:</label>
             &nbsp;
-            <input type="password" name="confirmPassword" required />
+            <input
+              type="password"
+              name="confirmPassword"
+              className={Styles.input}
+              required
+            />
             <br />
-            <button type="submit">Submit</button>
-            <button>
+            <button type="submit" className={Styles.button}>
+              Submit
+            </button>
+            <button className={Styles.button}>
               <a href="/" onClick={navigate("/")}>
                 Login
               </a>

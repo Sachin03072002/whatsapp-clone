@@ -12,7 +12,7 @@ label {
   color: white;
 }
 
-input {
+.input {
   width: 40vw;
   height: 2rem;
   border: none;
@@ -22,7 +22,7 @@ input {
   margin: 1rem;
   color: white;
 }
-button {
+.button {
   width: 6rem;
   height: 2rem;
   margin: 1rem;
@@ -32,10 +32,10 @@ button {
   font-size: 1rem;
   cursor: pointer;
 }
-button:hover {
+.button:hover {
   text-decoration: underline;
 }
-button a {
+.button a {
   color: white;
 }
 .homeImg {
@@ -108,7 +108,7 @@ button a {
   /* .homeMain {
     border: 2px solid red;
   } */
-  input {
+  .input {
     width: 50vw;
   }
   .Dpform {
@@ -129,7 +129,7 @@ button a {
   /* .homeMain {
     border: 2px solid black;
   } */
-  input {
+  .input {
     width: 82vw;
     margin: 0;
   }
@@ -154,7 +154,7 @@ button a {
   /* .homeMain {
     border: 2px solid yellow;
   } */
-  input {
+  .input {
     width: 82vw;
   }
   .Dpform {

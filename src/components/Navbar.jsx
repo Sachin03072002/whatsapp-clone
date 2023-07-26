@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Select from "react-select";
-
-function Navbar({ friendName, backColor, friendPhoto, conversation }) {
+import Styles from "../assets/css/Navbar.module.css";
+function Navbar({
+  friendName,
+  backColor,
+  friendPhoto,
+  conversation,
+  friendStatus,
+  inputFcoused,
+}) {
   const [searchMessage, setSearchMessage] = useState([]);
 
   useEffect(() => {
@@ -16,20 +22,21 @@ function Navbar({ friendName, backColor, friendPhoto, conversation }) {
     }
   }, [conversation]);
   return (
-    <nav
-      className="navbar navbar-light"
-      style={{ borderRadius: "1rem", backgroundColor: backColor }}
-    >
+    <nav style={{ borderRadius: "1rem", backgroundColor: backColor }}>
       <div className="container-fluid">
-        <div className="d-flex flex-grow justify-content-center">
+        <div className="">
           <img
-            src="https://pluspng.com/img-png/user-png-icon-young-user-icon-2400.png"
+            src={friendPhoto}
             alt="."
-            style={{ borderRadius: "50%", width: "75px" }}
+            style={{ borderRadius: "50%", width: "50px", margin: "0.5rem" }}
           />
-          <span className="mx-3 display-5">{friendName}</span>
+          <span className={Styles.name}>
+            {friendName}
+            <br />
+            {inputFcoused ? "Typing.." : friendStatus ? "Online" : "Offline"}
+          </span>
         </div>
-        {searchMessage && (
+        {/* {searchMessage && (
           <Select
             options={searchMessage}
             isClearable
@@ -41,9 +48,8 @@ function Navbar({ friendName, backColor, friendPhoto, conversation }) {
                 minWidth: 400,
                 marginRight: "25px",
               }),
-            }}
-          />
-        )}
+            }} */}
+        {/* /> )} */}
       </div>
     </nav>
   );

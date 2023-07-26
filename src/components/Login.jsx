@@ -71,7 +71,7 @@ function Login() {
         <h1>Welcome to Whatsapp</h1>
         <input
           type="text"
-          className="form-control my-3"
+          className={Styles.input}
           id="inputEmail3"
           placeholder="Enter ID..."
           required
@@ -82,7 +82,7 @@ function Login() {
         />
         <input
           type="password"
-          className="form-control my-3"
+          className={Styles.input}
           id="password"
           placeholder="Enter Your Password.."
           required
@@ -92,12 +92,12 @@ function Login() {
           }}
         />
         <div className="d-flex justify-content-between w-100">
-          <button className="button" type="submit">
+          <button className={Styles.button} type="submit">
             Log In
           </button>
           <button
             type="button"
-            className="button"
+            className={Styles.button}
             onClick={() => {
               setEmailId("");
               setPassword("");
@@ -107,7 +107,7 @@ function Login() {
           </button>
           <button
             type="button"
-            className="button-signup"
+            className={Styles.button}
             onClick={() => {
               setEmailId("");
               setPassword("");

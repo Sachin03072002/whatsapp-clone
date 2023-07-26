@@ -3,7 +3,9 @@ import Navbar from "../Navbar";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import { useParams } from "react-router-dom";
-
+import Conversation from "../Conversation";
+import Styles from "../../assets/css/FriendChatbBox.module.css";
+import { format } from "date-fns";
 function FriendChatBox() {
   const params = useParams();
   const adminId = params.AdminId;
@@ -12,13 +14,15 @@ function FriendChatBox() {
   const [conversationData, setConversationData] = useState([]);
   const [generatedId, setGeneratedId] = useState(null);
   const [message, setMessage] = useState("");
-  const time = new Date().toLocaleDateString();
+  const [inputFocus, setInputFocus] = useState(false);
+
   function generateConversationId(str1, str2) {
     const sortedIds = [str1, str2].sort();
     return sortedIds.join("");
   }
   async function onSubmitHandler(event) {
     event.preventDefault();
+    const time = format(new Date(), "hh:mm a");
     const conversationId = generateConversationId(adminId, friendId);
     const conversationSnapshot = await firebase
       .firestore()
@@ -54,8 +58,8 @@ function FriendChatBox() {
     const intervalId = setInterval(async () => {
       const friendSnapshot = await firebase
         .firestore()
-        .collection("friend")
-        .where("friendId", "==", friendId)
+        .collection("users")
+        .where("id", "==", friendId)
         .get();
       setFriendData(friendSnapshot.docs[0].data());
       const conversationSnapshot = await firebase
@@ -72,45 +76,35 @@ function FriendChatBox() {
   }, [friendId, adminId]);
   console.log("friend", friendData);
   return (
-    <section
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <section className={Styles.section}>
       <Navbar
-        friendName={friendData.friendId}
+        friendName={friendData.name}
+        friendStatus={friendData.status}
         backColor={friendData.backColor}
         friendPhoto={friendData.photo}
         conversation={conversationData.conversation}
+        inputFcoused={inputFocus}
       />
-      {/* <Conversation
+      <Conversation
         conversation={conversationData.conversation}
         uniqueId={generatedId}
-      /> */}
-      <form
-        onSubmit={onSubmitHandler}
-        style={{
-          padding: "20px 10px",
-          backgroundColor: "#777",
-          borderRadius: "0.5rem",
-        }}
-      >
+      />
+      <form onSubmit={onSubmitHandler} className={Styles.form}>
         <div className="input-group">
           <input
             type="text"
-            className="form-control"
+            className={Styles.input}
             placeholder="Type Here . . ."
             onChange={(e) => {
               setMessage(e.target.value);
             }}
+            onFocus={() => setInputFocus(true)} // Set inputFocused to true when input is focused
+            onBlur={() => setInputFocus(false)} // Set inputFocused to false when input loses focus
             value={message}
-          />
+          ></input>
           <button
             style={{ borderLeft: "1px solid #333" }}
-            className="btn btn-light"
+            className={Styles.button}
             type="submit"
             id="button-addon2"
           >
