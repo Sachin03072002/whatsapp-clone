@@ -28,8 +28,8 @@ function Signup() {
     }
   };
 
-  // Function to handle the user details form submission
-  const handleUserDetailsSubmit = async (event) => {
+  // Function to handle the form submission
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
 
@@ -79,90 +79,78 @@ function Signup() {
     );
   };
 
-  // Function to handle the profile picture form submission
-  const handleDpSubmit = (event) => {
-    event.preventDefault();
-    const dpFile = event.target.dpInput.files[0];
-    console.log(dpFile);
-  };
-
   return (
     <React.Fragment>
       <NotificationContainer />
       <main className={Styles.homeMain}>
         <h1>Create New Account..</h1>
         <section className={Styles.homeSection}>
-          <form onSubmit={handleDpSubmit} className={Styles.Dpform}>
-            <label htmlFor="dpInput">
-              Profile Picture:
-              <input
-                type="file"
-                id="dpInput"
-                accept="image/*"
-                style={{ display: "none" }}
-                className={Styles.input}
-                onChange={handleFileChange}
-              />
-            </label>
-            {dpPreview && (
-              <img
-                src={dpPreview}
-                alt="Profile Preview"
-                className={Styles.DpImg}
-              />
-            )}
+          <form onSubmit={handleSubmit} className={Styles.DetailsForm}>
+            <div>
+              <label htmlFor="dpInput" className={Styles.fileInputLabel}>
+                Choose Profile Picture
+                <input
+                  type="file"
+                  id="dpInput"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  className={Styles.input}
+                  onChange={handleFileChange}
+                />
+              </label>
+              <br />
+              {dpPreview && (
+                <img
+                  src={dpPreview}
+                  alt="Profile Preview"
+                  className={Styles.DpImg}
+                />
+              )}
+            </div>
             <br />
-            <button type="submit" className={Styles.button}>
-              Upload
-            </button>
-          </form>
-          <form
-            onSubmit={handleUserDetailsSubmit}
-            className={Styles.DetailsForm}
-          >
-            <label htmlFor="name">
-              Full Name:&nbsp;
+            <div>
+              <label htmlFor="name">
+                Full Name:&nbsp;
+                <input
+                  type="text"
+                  name="name"
+                  className={Styles.input}
+                  required
+                />
+              </label>
+              <br />
+              <label htmlFor="email">Email Address:</label>&nbsp;
               <input
-                type="text"
-                name="name"
+                type="email"
+                name="email"
                 className={Styles.input}
                 required
               />
-            </label>
-            <br />
-            <label htmlFor="email">Email Address:</label>&nbsp;
-            <input
-              type="email"
-              name="email"
-              className={Styles.input}
-              required
-            />
-            <br />
-            <label htmlFor="password">Password:</label>&emsp;
-            <input
-              type="password"
-              name="password"
-              className={Styles.input}
-              required
-            />
-            <br />
-            <label htmlFor="confirmPassword">Confirm Password:</label>
-            &nbsp;
-            <input
-              type="password"
-              name="confirmPassword"
-              className={Styles.input}
-              required
-            />
-            <br />
-            <button type="submit" className={Styles.button}>
-              Submit
-            </button>
-            <button className={Styles.button}>
-              <a href="/" onClick={navigate("/")}>
+              <br />
+              <label htmlFor="password">Password:</label>&emsp;
+              <input
+                type="password"
+                name="password"
+                className={Styles.input}
+                required
+              />
+              <br />
+              <label htmlFor="confirmPassword">Confirm Password:</label>
+              &nbsp;
+              <input
+                type="password"
+                name="confirmPassword"
+                className={Styles.input}
+                required
+              />
+              <br />
+              <button type="submit" className={Styles.button}>
+                Submit
+              </button>
+              <button className={Styles.button} onClick={() => navigate("/")}>
                 Login
-              </a>
-            </button>
+              </button>
+            </div>
           </form>
         </section>
       </main>

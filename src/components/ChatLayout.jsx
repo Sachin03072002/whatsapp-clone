@@ -8,7 +8,7 @@ import FriendAside from "./FriendAside";
 function ChatLayout() {
   const params = useParams();
   const adminId = params.AdminId;
-  console.log(adminId);
+
   const [userFriendData, setUserFriendData] = useState([]);
   const [LogInUserData, setLogInUserData] = useState([]);
   const [adminData, setAdminData] = useState(null);
@@ -44,12 +44,31 @@ function ChatLayout() {
         const Friendsnapshot = await firebase
           .firestore()
           .collection("users")
-          .doc(adminId) // Assuming your document IDs are the same as the user IDs
+          .where("id", "==", adminId) // Assuming your document IDs are the same as the user IDs
           .get();
-        const userData = Friendsnapshot.data();
+        const userData = Friendsnapshot.docs[0].data();
         if (userData) {
-          setUserFriendData(userData.friends || []); // Assuming "friends" is the array of friend IDs in the user document
+          const friendIds = userData.friends;
+          const friendDetails = [];
+          const fetchFriends = async () => {
+            const fetchPromises = friendIds.map(async (friendId) => {
+              const friendsnapshot = await firebase
+                .firestore()
+                .collection("users")
+                .where("id", "==", friendId)
+                .get();
+              const friendData = friendsnapshot.docs[0].data();
+              return friendData;
+            });
+            return Promise.all(fetchPromises);
+          };
+          const friendDetailsData = await fetchFriends();
+          friendDetailsData.forEach((friendData) => {
+            friendDetails.push(friendData);
+          });
+          setUserFriendData(friendDetails);
         }
+
         setIsLoading(false);
       } catch (error) {
         console.error("Error retrieving user's friend list:", error);
@@ -88,8 +107,8 @@ function ChatLayout() {
             <div className={Styles.friendList}>
               {isLoading ? (
                 <p>Loading...</p>
-              ) : LogInUserData.length > 0 ? (
-                LogInUserData.map((item, i) => (
+              ) : userFriendData.length > 0 ? (
+                userFriendData.map((item, i) => (
                   <FriendAside
                     key={i}
                     UserId={item.id}

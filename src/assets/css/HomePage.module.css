@@ -95,6 +95,8 @@ label {
   cursor: pointer;
 }
 .DetailsForm {
+  display: flex;
+  width: 80vw;
   top: -7rem;
   position: relative;
 }
