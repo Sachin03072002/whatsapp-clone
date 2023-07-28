@@ -8,6 +8,18 @@
   align-items: center;
   background-color: rgb(64, 62, 62);
 }
+.back {
+  border: none;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+.heading {
+  color: white;
+  place-content: center;
+  display: grid;
+}
+
 .photoGrid {
   width: 95%;
   height: 30%;
@@ -16,33 +28,31 @@
   place-items: center;
 }
 .DetailsGrid {
-  border: 2px solid green;
   width: 60%;
   height: 90vh;
   margin: 1rem;
 }
 .friendList {
-  border: 2px solid brown;
   width: 30%;
   height: 90vh;
   margin: 1rem;
 }
 .info {
-  border: 2px solid red;
   width: 95%;
   height: 53vh;
   margin: 1rem;
 }
 .img {
   width: 10rem;
+  height: 10rem;
   border-radius: 50%;
+  padding: 0.5rem;
 }
 
 .img:hover {
   border: 1px solid white;
 }
 .form {
-  border: 2px solid red;
   width: 12rem;
   position: absolute;
   left: 34rem;
@@ -57,8 +67,86 @@
 .penButton {
   position: absolute;
   left: 30rem;
+  top: 5rem;
   border: none;
   background: transparent;
   color: white;
   cursor: pointer;
+}
+.input {
+  width: 41vw;
+  height: 2rem;
+  border: none;
+  background: transparent;
+  border-bottom: 2px solid black;
+  padding: 0.2rem;
+  margin: 1rem;
+  color: white;
+}
+.Imginput {
+  width: 14vw;
+  height: 2rem;
+  border: none;
+  background: transparent;
+  border-bottom: 2px solid black;
+  padding: 0.2rem;
+  margin: 1rem;
+  color: white;
+}
+.poweroff {
+  position: absolute;
+  top: 3rem;
+  left: 48rem;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.poweroff:hover {
+  color: red;
+}
+.edit {
+  border: none;
+  position: absolute;
+  left: 45rem;
+  font-size: 1.5rem;
+  top: 15rem;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+.saveButton {
+  padding: 0.5rem;
+  border-radius: 1rem;
+  color: black;
+  background: grey;
+  border: none;
+  cursor: pointer;
+  margin: 1rem;
+}
+.saveButton:hover {
+  border: 1px solid white;
+}
+
+/* existing friendList */
+.friendList {
+  height: 90%;
+  width: 30%;
+}
+.search {
+  padding: 0.4rem;
+  width: 22rem;
+  border-radius: 2rem;
+  background: grey;
+  border: 2px solid black;
+  color: white;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+.divider {
+  width: 0.2rem;
+  height: 90%;
+  background-color: black;
+  border: none;
 }
