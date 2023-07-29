@@ -24,6 +24,7 @@ function Profile() {
   const [friendList, setFriendList] = useState([]);
   const [userFriendData, setUserFriendData] = useState([]);
   const [newFriend, setNewFriend] = useState([]);
+
   // const [showModal, setShowModal] = useState(null);
 
   const handlePageChange = () => {

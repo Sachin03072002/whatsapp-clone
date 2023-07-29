@@ -40,6 +40,7 @@ function FriendList({
       .firestore()
       .collection("newFriendRequest")
       .add({ friendRequest });
+    NotificationManager.success("Friend Request send Successfully", "Success");
   };
   const handleAcceptFriendRequest = async () => {
     try {
