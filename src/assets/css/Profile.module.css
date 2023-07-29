@@ -18,6 +18,7 @@
   color: white;
   place-content: center;
   display: grid;
+  position: relative;
 }
 
 .photoGrid {
@@ -36,6 +37,11 @@
   width: 30%;
   height: 90vh;
   margin: 1rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.friendList::-webkit-scrollbar {
+  width: 0;
 }
 .info {
   width: 95%;

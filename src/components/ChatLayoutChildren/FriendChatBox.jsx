@@ -74,7 +74,7 @@ function FriendChatBox() {
     }, 1000);
     return () => clearInterval(intervalId);
   }, [friendId, adminId]);
-  console.log("friend", friendData);
+
   return (
     <section className={Styles.section}>
       <Navbar

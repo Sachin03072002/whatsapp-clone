@@ -10,7 +10,7 @@ function ChatLayout() {
   const adminId = params.AdminId;
 
   const [userFriendData, setUserFriendData] = useState([]);
-  const [LogInUserData, setLogInUserData] = useState([]);
+
   const [adminData, setAdminData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -23,21 +23,7 @@ function ChatLayout() {
         .get();
       setAdminData(adminSnapshot.docs[0].data());
     })();
-    //setting up the logged in all user
-    const intervalId = setInterval(async () => {
-      const tempSnapshot = [];
-      const LoginUserSnapshot = await firebase
-        .firestore()
-        .collection("users")
-        .where("id", "!=", adminId)
-        .get();
-      LoginUserSnapshot.docs.forEach((doc) => {
-        tempSnapshot.push(doc.data());
-      });
-      if (tempSnapshot) {
-        setLogInUserData(tempSnapshot);
-      }
-    }, 1000);
+
     //setting up the logged in current user friend list
     const friendIntervalId = setInterval(async () => {
       try {
@@ -76,7 +62,6 @@ function ChatLayout() {
       }
     }, 1000);
     return () => {
-      clearInterval(intervalId);
       clearInterval(friendIntervalId);
     };
   }, [adminId]);

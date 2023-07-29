@@ -4,8 +4,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/storage";
-import FriendAside from "./FriendAside";
 import FriendList from "./FriendList";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 function Profile() {
   const params = useParams();
@@ -18,6 +22,9 @@ function Profile() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [loading, setLoading] = useState(true);
   const [friendList, setFriendList] = useState([]);
+  const [userFriendData, setUserFriendData] = useState([]);
+  const [newFriend, setNewFriend] = useState([]);
+  // const [showModal, setShowModal] = useState(null);
 
   const handlePageChange = () => {
     navigate(-1);
@@ -74,8 +81,83 @@ function Profile() {
       }
     }, 1000);
 
+    //setting up the logged in current user friend list
+    const friendIntervalId = setInterval(async () => {
+      try {
+        const Friendsnapshot = await firebase
+          .firestore()
+          .collection("users")
+          .where("id", "==", adminId) // Assuming your document IDs are the same as the user IDs
+          .get();
+        const userData = Friendsnapshot.docs[0].data();
+        if (userData) {
+          const friendIds = userData.friends;
+          const friendDetails = [];
+          const fetchFriends = async () => {
+            const fetchPromises = friendIds.map(async (friendId) => {
+              const friendsnapshot = await firebase
+                .firestore()
+                .collection("users")
+                .where("id", "==", friendId)
+                .get();
+              const friendData = friendsnapshot.docs[0].data();
+              return friendData;
+            });
+            return Promise.all(fetchPromises);
+          };
+          const friendDetailsData = await fetchFriends();
+          friendDetailsData.forEach((friendData) => {
+            friendDetails.push(friendData);
+          });
+          setUserFriendData(friendDetails);
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error retrieving user's friend list:", error);
+        setLoading(false);
+      }
+    }, 1000);
+    const newFriendRequestIntervalId = setInterval(async () => {
+      try {
+        const newFriendArray = [];
+        const newFriendsnapshot = await firebase
+          .firestore()
+          .collection("newFriendRequest")
+          .where("friendRequest.receiver", "==", adminId) // Assuming your document IDs are the same as the user IDs
+          .get();
+        if (!newFriendsnapshot.empty) {
+          const fetchPromises = newFriendsnapshot.docs.map(async (doc) => {
+            const requestData = doc.data().friendRequest;
+            const senderSnapshot = await firebase
+              .firestore()
+              .collection("users")
+              .where("id", "==", requestData.sender)
+              .get();
+            const senderData = senderSnapshot.docs[0].data();
+            //merge the sender details with the request data
+            const requestWithSender = { ...requestData, senderData };
+            return requestWithSender;
+          });
+          const newFriendRequest = await Promise.all(fetchPromises);
+          newFriendArray.push(...newFriendRequest);
+        }
+
+        if (newFriendArray) {
+          setNewFriend(newFriendArray);
+        } else {
+          console.log("no data found");
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.log("Error in Fetching the new Friend Request", error);
+      }
+    }, 1000);
     return () => {
+      clearInterval(friendIntervalId);
       clearInterval(intervalId);
+      clearInterval(newFriendRequestIntervalId);
     };
   }, [adminId]);
 
@@ -91,6 +173,9 @@ function Profile() {
       .collection("users")
       .doc(docId)
       .update({ status: false });
+    setTimeout(() => {
+      NotificationManager.success("Successfully Logged Out..", "Success");
+    }, 1000);
     navigate("/");
   }
 
@@ -147,8 +232,14 @@ function Profile() {
     console.log("updated");
   };
 
+  // const handleAddFriend = (id) => {
+  //   console.log("profile:", id);
+  //   setShowModal(id);
+  // };
+
   return (
     <div className={Styles.container}>
+      <NotificationContainer />
       {loading ? (
         <div>Loading...</div>
       ) : (
@@ -264,22 +355,82 @@ function Profile() {
           className={Styles.search}
         />
         <div className={Styles.friendsList}>
+          <div>
+            <p>New Friend Request</p>
+
+            {loading ? (
+              <p>Loading...</p>
+            ) : newFriend.length > 0 ? (
+              newFriend.map((item, i) => (
+                <FriendList
+                  key={i}
+                  AdminId={adminId}
+                  UserId={item.senderData.id}
+                  UserName={item.senderData.name}
+                  UserPhoto={item.senderData.photo}
+                  UserOnline={item.senderData.status}
+                  friendship={userFriendData.some(
+                    (friend) => friend.id === item.id
+                  )} // Check if the user is a friend
+                  relationship={newFriend.result}
+                />
+              ))
+            ) : (
+              <p>No Data Found</p>
+            )}
+          </div>
+          <hr />
+          <p>Friends</p>
           {loading ? (
             <p>Loading...</p>
-          ) : friendList.length > 0 ? (
-            friendList.map((item, i) => (
+          ) : userFriendData.length > 0 ? (
+            userFriendData.map((item, i) => (
               <FriendList
                 key={i}
+                AdminId={adminId}
                 UserId={item.id}
                 UserName={item.name}
                 UserPhoto={item.photo}
                 UserOnline={item.status}
+                // onAddFriend={handleAddFriend}
+                // ShowModalForUser={showModal}
+                // setShowModal={setShowModal}
+                friendship={userFriendData.some(
+                  (friend) => friend.id === item.id
+                )} // Check if the user is a friend
+                relationship={true}
               />
             ))
           ) : (
             <p>No Data Found</p>
           )}
         </div>
+        <hr />
+        <p>All Users</p>
+        {loading ? (
+          <p>Loading...</p>
+        ) : friendList.length > 0 ? (
+          friendList.map((item, i) => (
+            <FriendList
+              key={i}
+              AdminId={adminId}
+              UserId={item.id}
+              UserName={item.name}
+              UserPhoto={item.photo}
+              UserOnline={item.status}
+              // onAddFriend={handleAddFriend}
+              // ShowModalForUser={showModal}
+              // setShowModal={setShowModal}
+              friendship={userFriendData.some(
+                (friend) => friend.id === item.id
+              )} // Check if the user is a friend
+              // {...userFriendData}
+              relationship={true}
+            />
+          ))
+        ) : (
+          <p>No Data Found</p>
+        )}
       </div>
     </div>
   );

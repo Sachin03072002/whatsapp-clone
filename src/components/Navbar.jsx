@@ -25,11 +25,7 @@ function Navbar({
     <nav style={{ borderRadius: "1rem", backgroundColor: backColor }}>
       <div className="container-fluid">
         <div className="">
-          <img
-            src={friendPhoto}
-            alt="."
-            style={{ borderRadius: "50%", width: "50px", margin: "0.5rem" }}
-          />
+          <img src={friendPhoto} alt="." className={Styles.dp} />
           <span className={Styles.name}>
             {friendName}
             <br />
