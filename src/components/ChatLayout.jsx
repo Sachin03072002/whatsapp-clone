@@ -79,16 +79,20 @@ function ChatLayout() {
               />
             )}
           </div>
+          <hr className={Styles.line} />
           <div className={Styles.div}>
-            <h1 className="display-6 text-center my-5">
-              <input
-                type="search"
-                name="search"
-                id="search-bar"
-                placeholder="Search.."
-                className={Styles.searchinput}
-              />
-            </h1>
+            <div>
+              <h1 className={Styles.H1}>
+                <input
+                  type="search"
+                  name="search"
+                  id="search-bar"
+                  placeholder="Search.."
+                  className={Styles.searchinput}
+                />
+              </h1>
+            </div>
+            <hr className={Styles.horizontal} />
             <div className={Styles.friendList}>
               {isLoading ? (
                 <p>Loading...</p>

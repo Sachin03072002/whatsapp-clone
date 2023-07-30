@@ -1,6 +1,6 @@
 .box {
   text-decoration: none;
-  color: #333;
+  color: whitesmoke;
   background-color: transparent;
   display: flex;
   flex-flow: row wrap;
@@ -22,7 +22,7 @@
   font-size: 1rem;
   margin: 0.5rem 0;
   padding: 0;
-  color: white;
+  color: #8e8787;
 }
 
 .insideDiv {
@@ -58,7 +58,7 @@ small {
 }
 .add {
   height: 1.5rem;
-  width: -moz-fit-content;
+
   width: fit-content;
   background: transparent;
   border: none;

@@ -12,25 +12,23 @@ function Admin({ adminId, adminName, adminPhoto, status }) {
   const handleImageClick = () => {
     navigate(`/whatsapp-web/profile/${adminId}`);
   };
-
-  const FriendNum = async () => {
-    try {
-      const snapshot = await firebase
-        .firestore()
-        .collection("newFriendRequest")
-        .where("friendRequest.receiver", "==", adminId)
-        .get();
-      setLength(snapshot.size);
-      console.log(snapshot.size);
-    } catch (error) {
-      console.error("error fetching data", error);
-    }
-  };
-
-  // Call FriendNum function whenever the component mounts
+  //whenever the component mounts it will call this function
   useEffect(() => {
+    const FriendNum = async () => {
+      try {
+        const snapshot = await firebase
+          .firestore()
+          .collection("newFriendRequest")
+          .where("friendRequest.receiver", "==", adminId)
+          .get();
+        setLength(snapshot.size);
+        console.log(snapshot.size);
+      } catch (error) {
+        console.error("error fetching data", error);
+      }
+    };
     FriendNum();
-  }, []); // The empty dependency array [] ensures it's only called once on mount
+  }, [adminId]);
 
   // Additionally, you might want to update the length whenever new friend requests are added
   // To achieve this, you can use Firestore's snapshot listener

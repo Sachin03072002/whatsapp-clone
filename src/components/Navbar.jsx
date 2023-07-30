@@ -22,9 +22,9 @@ function Navbar({
     }
   }, [conversation]);
   return (
-    <nav style={{ borderRadius: "1rem", backgroundColor: backColor }}>
+    <nav style={{ backgroundColor: backColor }} className={Styles.nav}>
       <div className="container-fluid">
-        <div className="">
+        <div className={Styles.dp}>
           <img src={friendPhoto} alt="." className={Styles.dp} />
           <span className={Styles.name}>
             {friendName}

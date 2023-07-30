@@ -1,21 +1,22 @@
 .main {
   width: 100vw;
   height: 100vh;
-  background-color: rgb(24, 199, 24);
+  background-color: darkslategrey;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   border: 2px solid rgb(5, 41, 2);
+  padding: 0;
+  overflow: hidden;
 }
 
 .section {
-  width: 94vw;
-  height: 94vh;
-  box-shadow: 0 0 10px #03960c;
-  background-color: rgb(5, 41, 2);
-  border-radius: 1rem;
+  width: 100vw;
+  height: 101vh;
 
+  background-color: #262626;
+  border-radius: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -23,41 +24,62 @@
 }
 
 .aside {
-  height: 90%;
-  width: 22%;
-  padding: 10px;
-  background-color: rgb(17, 146, 43);
-
+  height: 91%;
+  width: 26%;
+  background-color: #262626;
   overflow-x: hidden;
-  justify-content: space-between;
+  justify-content: space-evenly;
   display: flex;
   border-radius: 1rem;
 }
-
+.aside::-webkit-scrollbar {
+  width: 0;
+}
 .chatBox {
   height: 100%;
   width: 70%;
   padding: 10px;
 }
 .div {
-  /* border: 2px solid red; */
-  width: 13rem;
+  width: 18rem;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 18px;
+}
+.div::-webkit-scrollbar {
+  width: 0;
 }
 
 .searchinput {
-  width: 11rem;
+  width: 15rem;
   border: 1px solid black;
   color: white;
-  border-radius: 8px;
+  border-radius: 4rem;
+  margin-left: 1rem;
+  padding: 0.5rem;
 }
 .friendList {
-  /* border: 2px solid yellow; */
   height: fit-content;
   overflow-x: hidden;
   overflow-y: scroll;
+  width: 16.5rem;
 }
 .friendList::-webkit-scrollbar {
   width: 0;
+}
+.line {
+  width: 1px;
+  height: 90%;
+  color: white;
+  background-color: white;
+  z-index: 2;
+  position: fixed;
+  left: 21rem;
+}
+.horizontal {
+  position: relative;
+  width: 15rem;
+  height: 0;
+}
+H1 {
+  height: fit-content;
 }

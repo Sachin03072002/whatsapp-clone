@@ -1,12 +1,16 @@
 .section {
-  width: 100%;
-  height: 100%;
+  width: 98%;
+  height: 75%;
   overflow-y: scroll;
   overflow-x: hidden;
   padding: 10px;
   scroll-behavior: smooth;
   z-index: 0;
-  background-image: url("https://i1.wp.com/www.techgrapple.com/wp-content/uploads/2016/07/WhatsApp-Chat-theme-iPhone-2.jpg?fit=744,1392x");
+  background-image: url(https://i1.wp.com/www.techgrapple.com/wp-content/uploads/2016/07/WhatsApp-Chat-theme-iPhone-2.jpg?fit=744,1392x);
+  margin-bottom: 0.5rem;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 8px;
 }
 .section::-webkit-scrollbar {
   width: 0;

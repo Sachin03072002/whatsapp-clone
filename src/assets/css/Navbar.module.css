@@ -1,7 +1,13 @@
+.nav {
+  border-radius: 1rem;
+  margin-bottom: 0.5rem;
+}
+
 .name {
   position: absolute;
   color: white;
-  top: 2rem;
+  top: 0.7rem;
+  left: 27rem;
 }
 
 .dp {

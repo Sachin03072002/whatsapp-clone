@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Styles from "../assets/css/FriendList.module.css";
 import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
 import "react-notifications/lib/notifications.css";
-import Modal from "react-modal"; // Import react-modal library
+
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 
