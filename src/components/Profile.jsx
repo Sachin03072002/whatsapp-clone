@@ -202,8 +202,22 @@ function Profile() {
           .collection("users")
           .doc(docId)
           .update({ photo: photoURL });
-
+        setTimeout(() => {
+          NotificationManager.success("Profile Image Updated..", "Success");
+        }, 1000);
         console.log("Image updated successfully!");
+        //fetch the updated admindata after updating the image
+        const updatedAdminSnapshot = await firebase
+          .firestore()
+          .collection("users")
+          .where("id", "==", adminId)
+          .get();
+
+        if (!updatedAdminSnapshot.empty) {
+          setAdminData(updatedAdminSnapshot.docs[0].data() || []);
+        } else {
+          console.log("Admin not found after update.");
+        }
 
         // Hide the form after submitting
         setShowForm(false);
@@ -229,124 +243,132 @@ function Profile() {
       .collection("users")
       .doc(docId)
       .update({ name: UpdateFormData.get("name") });
+
     setIsEditMode(!isEditMode);
+    setTimeout(() => {
+      NotificationManager.success("Profile Details Updated..", "Success");
+    }, 1000);
     console.log("updated");
   };
-
-  // const handleAddFriend = (id) => {
-  //   console.log("profile:", id);
-  //   setShowModal(id);
-  // };
 
   return (
     <div className={Styles.container}>
       <NotificationContainer />
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <div className={Styles.DetailsGrid}>
-          <button className={Styles.back} onClick={handlePageChange}>
-            <i className="fa-solid fa-arrow-left"></i>
-          </button>
-          <div className={Styles.photoGrid}>
-            <button className={Styles.poweroff} onClick={onLogOutHandler}>
-              <i className="fa-solid fa-power-off"></i>
+      <div className={Styles.DetailsGrid}>
+        {loading ? (
+          <div>
+            <img
+              src="https://edumars.net/skin/web/images/loading.gif"
+              className={Styles.loader}
+              alt="loader"
+            />
+          </div>
+        ) : (
+          <>
+            <button className={Styles.back} onClick={handlePageChange}>
+              <i className="fa-solid fa-arrow-left"></i>
             </button>
-            {adminData && (
-              <>
-                <img
-                  src={adminData.photo}
-                  alt="profile"
-                  className={Styles.img}
-                  onMouseEnter={() => setShowPen(true)}
-                  onMouseLeave={() => setShowPen(false)}
-                  onClick={() => setShowForm(!showForm)}
-                />
-              </>
-            )}
-            {showPen && (
-              <button className={Styles.penButton}>
-                <i className="fa-solid fa-pen"></i>
+            <div className={Styles.photoGrid}>
+              <button className={Styles.poweroff} onClick={onLogOutHandler}>
+                <i className="fa-solid fa-power-off"></i>
               </button>
-            )}
-
-            {showForm && (
-              <form className={Styles.form}>
-                <input
-                  type="file"
-                  id="dpInput"
-                  accept="image/*"
-                  className={Styles.Imginput}
-                  onChange={handleFileChange}
-                />
-                <button
-                  type="button"
-                  onClick={updateImage}
-                  className={Styles.button}
-                >
-                  <i className="fa-solid fa-check-double"></i>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setNewImage(null); // Reset the new image state when canceling
-                  }}
-                  className={Styles.button}
-                >
-                  <i className="fa-solid fa-xmark"></i>
-                </button>
-              </form>
-            )}
-          </div>
-          <div className={Styles.info}>
-            <h2 className={Styles.heading}>Personal Details</h2>
-            <form onSubmit={handleUpdateForm}>
-              <label htmlFor="name">
-                Full Name:&nbsp;
-                <input
-                  type="text"
-                  name="name"
-                  value={adminData.name}
-                  onChange={(e) =>
-                    setAdminData({ ...adminData, name: e.target.value })
-                  }
-                  className={Styles.input}
-                  required
-                  disabled={!isEditMode} // Disable the input field based on edit mode
-                />
-              </label>
-              <br />
-              <label htmlFor="name">
-                Email:&emsp;&emsp;
-                <input
-                  type="text"
-                  name="email"
-                  value={adminData.email}
-                  className={Styles.input}
-                  required
-                />
-              </label>
-              <br />
-              {isEditMode ? (
-                <div>
-                  <button className={Styles.saveButton}>Save Changes </button>
-                </div>
-              ) : (
-                <></>
+              {adminData && (
+                <>
+                  <img
+                    src={adminData.photo}
+                    alt="profile"
+                    className={Styles.img}
+                    onMouseEnter={() => setShowPen(true)}
+                    onMouseLeave={() => setShowPen(false)}
+                    onClick={() => setShowForm(!showForm)}
+                  />
+                </>
               )}
-            </form>
-            <button
-              className={Styles.edit}
-              onClick={() => setIsEditMode(!isEditMode)}
-            >
-              <i className="fa-solid fa-user-pen"></i>
-            </button>
-          </div>
-        </div>
-      )}
+              {showPen && (
+                <button className={Styles.penButton}>
+                  <i className="fa-solid fa-pen"></i>
+                </button>
+              )}
+
+              {showForm && (
+                <form className={Styles.form}>
+                  <input
+                    type="file"
+                    id="dpInput"
+                    accept="image/*"
+                    className={Styles.Imginput}
+                    onChange={handleFileChange}
+                  />
+                  <button
+                    type="button"
+                    onClick={updateImage}
+                    className={Styles.button}
+                  >
+                    <i className="fa-solid fa-check-double"></i>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setNewImage(null); // Reset the new image state when canceling
+                    }}
+                    className={Styles.button}
+                  >
+                    <i className="fa-solid fa-xmark"></i>
+                  </button>
+                </form>
+              )}
+            </div>
+            <div className={Styles.info}>
+              <h2 className={Styles.heading}>Personal Details</h2>
+              <form onSubmit={handleUpdateForm}>
+                <label htmlFor="name">
+                  Full Name:&nbsp;
+                  <input
+                    type="text"
+                    name="name"
+                    value={adminData.name}
+                    onChange={(e) =>
+                      setAdminData({ ...adminData, name: e.target.value })
+                    }
+                    className={Styles.input}
+                    required
+                    disabled={!isEditMode} // Disable the input field based on edit mode
+                  />
+                </label>
+                <br />
+                <label htmlFor="name">
+                  Email:&emsp;&emsp;
+                  <input
+                    type="text"
+                    name="email"
+                    value={adminData.email}
+                    className={Styles.input}
+                    required
+                  />
+                </label>
+                <br />
+                {isEditMode ? (
+                  <div>
+                    <button className={Styles.saveButton}>Save Changes </button>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </form>
+              <button
+                className={Styles.edit}
+                onClick={() => setIsEditMode(!isEditMode)}
+              >
+                <i className="fa-solid fa-user-pen"></i>
+              </button>
+            </div>
+          </>
+        )}
+      </div>
       <hr className={Styles.divider} />
       <div className={Styles.friendList}>
         <h2 className={Styles.heading}>FriendList</h2>
+
         <hr />
         <input
           type="search"
@@ -360,7 +382,13 @@ function Profile() {
             <p>New Friend Request</p>
 
             {loading ? (
-              <p>Loading...</p>
+              <div>
+                <img
+                  src="https://edumars.net/skin/web/images/loading.gif"
+                  className={Styles.loader}
+                  alt="loader"
+                />
+              </div>
             ) : newFriend.length > 0 ? (
               newFriend.map((item, i) => (
                 <FriendList

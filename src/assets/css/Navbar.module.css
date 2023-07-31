@@ -16,3 +16,8 @@
   height: 3rem;
   margin: 0.5rem;
 }
+@media screen and (max-width: 1200px) {
+  .name {
+    left: 23rem;
+  }
+}

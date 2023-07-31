@@ -53,3 +53,9 @@ small {
 
   border-radius: 50%;
 }
+
+@media screen and (max-width: 1200px) {
+  .box {
+    width: 13rem;
+  }
+}

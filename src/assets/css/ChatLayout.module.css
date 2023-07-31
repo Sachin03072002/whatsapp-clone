@@ -83,3 +83,18 @@
 H1 {
   height: fit-content;
 }
+
+@media screen and (max-width: 1200px) {
+  .div {
+    width: 13rem;
+  }
+  .line {
+    left: 17rem;
+  }
+  .searchinput {
+    width: 11rem;
+  }
+  .horizontal {
+    width: 12rem;
+  }
+}

@@ -8,6 +8,12 @@
   align-items: center;
   background-color: rgb(64, 62, 62);
 }
+.loader {
+  width: 6rem;
+  position: absolute;
+  top: 40%;
+  left: 28%;
+}
 .back {
   border: none;
   background: transparent;
@@ -155,4 +161,12 @@
   height: 90%;
   background-color: black;
   border: none;
+}
+@media screen and (max-width: 1200px) {
+  .edit {
+    left: 37rem;
+  }
+  .poweroff {
+    left: 37rem;
+  }
 }

@@ -18,3 +18,8 @@
   width: 2rem;
   padding: 0.5rem;
 }
+@media screen and (max-width: 1200px) {
+  .input {
+    width: 42rem;
+  }
+}
