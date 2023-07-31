@@ -24,6 +24,7 @@ function Profile() {
   const [friendList, setFriendList] = useState([]);
   const [userFriendData, setUserFriendData] = useState([]);
   const [newFriend, setNewFriend] = useState([]);
+  const [ListVisible, setListVisible] = useState(-1);
 
   // const [showModal, setShowModal] = useState(null);
 
@@ -250,7 +251,9 @@ function Profile() {
     }, 1000);
     console.log("updated");
   };
-
+  const handleListVisible = () => {
+    setListVisible((list) => (list === 0 ? -1 : 0));
+  };
   return (
     <div className={Styles.container}>
       <NotificationContainer />
@@ -365,43 +368,76 @@ function Profile() {
           </>
         )}
       </div>
+
+      <i
+        className={`fa-solid fa-user-group ${Styles.friendIcon}`}
+        onClick={handleListVisible}
+      ></i>
+
       <hr className={Styles.divider} />
-      <div className={Styles.friendList}>
-        <h2 className={Styles.heading}>FriendList</h2>
+      {ListVisible === 0 && (
+        <div className={Styles.friendList}>
+          <h2 className={Styles.heading}>FriendList</h2>
 
-        <hr />
-        <input
-          type="search"
-          name="search"
-          id="search"
-          placeholder="Search..."
-          className={Styles.search}
-        />
-        <div className={Styles.friendsList}>
-          <div>
-            <p>New Friend Request</p>
+          <hr />
+          <input
+            type="search"
+            name="search"
+            id="search"
+            placeholder="Search..."
+            className={Styles.search}
+          />
+          <div className={Styles.friendsList}>
+            <div>
+              <p>New Friend Request</p>
 
+              {loading ? (
+                <div>
+                  <img
+                    src="https://edumars.net/skin/web/images/loading.gif"
+                    className={Styles.loader}
+                    alt="loader"
+                  />
+                </div>
+              ) : newFriend.length > 0 ? (
+                newFriend.map((item, i) => (
+                  <FriendList
+                    key={i}
+                    AdminId={adminId}
+                    UserId={item.senderData.id}
+                    UserName={item.senderData.name}
+                    UserPhoto={item.senderData.photo}
+                    UserOnline={item.senderData.status}
+                    friendship={userFriendData.some(
+                      (friend) => friend.id === item.id
+                    )} // Check if the user is a friend
+                    relationship={newFriend.result}
+                  />
+                ))
+              ) : (
+                <p>No Data Found</p>
+              )}
+            </div>
+            <hr />
+            <p>Friends</p>
             {loading ? (
-              <div>
-                <img
-                  src="https://edumars.net/skin/web/images/loading.gif"
-                  className={Styles.loader}
-                  alt="loader"
-                />
-              </div>
-            ) : newFriend.length > 0 ? (
-              newFriend.map((item, i) => (
+              <p>Loading...</p>
+            ) : userFriendData.length > 0 ? (
+              userFriendData.map((item, i) => (
                 <FriendList
                   key={i}
                   AdminId={adminId}
-                  UserId={item.senderData.id}
-                  UserName={item.senderData.name}
-                  UserPhoto={item.senderData.photo}
-                  UserOnline={item.senderData.status}
+                  UserId={item.id}
+                  UserName={item.name}
+                  UserPhoto={item.photo}
+                  UserOnline={item.status}
+                  // onAddFriend={handleAddFriend}
+                  // ShowModalForUser={showModal}
+                  // setShowModal={setShowModal}
                   friendship={userFriendData.some(
                     (friend) => friend.id === item.id
                   )} // Check if the user is a friend
-                  relationship={newFriend.result}
+                  relationship={true}
                 />
               ))
             ) : (
@@ -409,11 +445,11 @@ function Profile() {
             )}
           </div>
           <hr />
-          <p>Friends</p>
+          <p>All Users</p>
           {loading ? (
             <p>Loading...</p>
-          ) : userFriendData.length > 0 ? (
-            userFriendData.map((item, i) => (
+          ) : friendList.length > 0 ? (
+            friendList.map((item, i) => (
               <FriendList
                 key={i}
                 AdminId={adminId}
@@ -427,6 +463,7 @@ function Profile() {
                 friendship={userFriendData.some(
                   (friend) => friend.id === item.id
                 )} // Check if the user is a friend
+                // {...userFriendData}
                 relationship={true}
               />
             ))
@@ -434,33 +471,7 @@ function Profile() {
             <p>No Data Found</p>
           )}
         </div>
-        <hr />
-        <p>All Users</p>
-        {loading ? (
-          <p>Loading...</p>
-        ) : friendList.length > 0 ? (
-          friendList.map((item, i) => (
-            <FriendList
-              key={i}
-              AdminId={adminId}
-              UserId={item.id}
-              UserName={item.name}
-              UserPhoto={item.photo}
-              UserOnline={item.status}
-              // onAddFriend={handleAddFriend}
-              // ShowModalForUser={showModal}
-              // setShowModal={setShowModal}
-              friendship={userFriendData.some(
-                (friend) => friend.id === item.id
-              )} // Check if the user is a friend
-              // {...userFriendData}
-              relationship={true}
-            />
-          ))
-        ) : (
-          <p>No Data Found</p>
-        )}
-      </div>
+      )}
     </div>
   );
 }

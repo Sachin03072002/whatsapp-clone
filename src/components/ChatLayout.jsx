@@ -7,12 +7,18 @@ import Admin from "./Admin";
 import FriendAside from "./FriendAside";
 function ChatLayout() {
   const params = useParams();
+
   const adminId = params.AdminId;
 
   const [userFriendData, setUserFriendData] = useState([]);
 
   const [adminData, setAdminData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSearch, setIsSearch] = useState(true);
+  const hideSearchBar = () => {
+    setIsSearch(false);
+  };
+
   useEffect(() => {
     //setting up the logged in current user
     (async () => {
@@ -81,18 +87,22 @@ function ChatLayout() {
           </div>
           <hr className={Styles.line} />
           <div className={Styles.div}>
-            <div>
-              <h1 className={Styles.H1}>
-                <input
-                  type="search"
-                  name="search"
-                  id="search-bar"
-                  placeholder="Search.."
-                  className={Styles.searchinput}
-                />
-              </h1>
-            </div>
-            <hr className={Styles.horizontal} />
+            {isSearch && (
+              <>
+                <div>
+                  <h1 className={Styles.H1}>
+                    <input
+                      type="search"
+                      name="search"
+                      id="search-bar"
+                      placeholder="Search.."
+                      className={Styles.searchinput}
+                    />
+                  </h1>
+                </div>
+                <hr className={Styles.horizontal} />
+              </>
+            )}
             <div className={Styles.friendList}>
               {isLoading ? (
                 <p>Loading...</p>
@@ -104,6 +114,7 @@ function ChatLayout() {
                     UserName={item.name}
                     UserPhoto={item.photo}
                     UserOnline={item.status}
+                    hideSearchBar={hideSearchBar}
                   />
                 ))
               ) : (

@@ -4,6 +4,7 @@ import { NavLink, useParams } from "react-router-dom";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 function FriendAside({ UserId, UserName, UserPhoto, UserOnline }) {
+  // const [isHidden, setIsHidden] = useState(false);
   const params = useParams();
   const [lastMessage, setLastMessage] = useState();
   const adminId = params.AdminId;
@@ -17,6 +18,7 @@ function FriendAside({ UserId, UserName, UserPhoto, UserOnline }) {
       return str2 + str1;
     }
   }
+
   useEffect(() => {
     const updateLastMessage = async () => {
       const docRef = firebase

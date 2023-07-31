@@ -84,6 +84,7 @@ H1 {
   height: fit-content;
 }
 
+/* Tablet view  */
 @media screen and (max-width: 1200px) {
   .div {
     width: 13rem;
@@ -96,5 +97,30 @@ H1 {
   }
   .horizontal {
     width: 12rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .main {
+    overflow-x: hidden;
+    height: 101vh;
+  }
+  .div {
+    position: absolute;
+    top: 5rem;
+    width: 21rem;
+    left: 1rem;
+    z-index: 1;
+    height: 36rem;
+    overflow-x: hidden;
+  }
+  .searchinput {
+    width: 19rem;
+  }
+  .horizontal {
+    width: 20rem;
+  }
+  .line {
+    visibility: hidden;
   }
 }

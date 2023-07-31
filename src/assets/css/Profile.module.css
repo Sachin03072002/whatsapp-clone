@@ -140,6 +140,11 @@
 .saveButton:hover {
   border: 1px solid white;
 }
+.friendIcon {
+  color: white;
+  position: absolute;
+  bottom: 1rem;
+}
 
 /* existing friendList */
 .friendList {
@@ -168,5 +173,44 @@
   }
   .poweroff {
     left: 37rem;
+  }
+}
+@media screen and (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .back {
+    left: 1rem;
+    position: absolute;
+  }
+  .DetailsGrid {
+    width: 98%;
+    height: fit-content;
+  }
+  .form {
+    width: 7rem;
+    position: relative;
+    left: 6rem;
+    /* border: 2px solid red; */
+    top: -5rem;
+  }
+  .divider {
+    visibility: hidden;
+  }
+  .friendList {
+    position: absolute;
+    width: 23rem;
+    background: #403e3e;
+  }
+  .friendsIcon {
+    visibility: visible;
+  }
+  .poweroff {
+    left: 20rem;
+  }
+  .edit {
+    left: 20rem;
   }
 }

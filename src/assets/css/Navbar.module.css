@@ -16,8 +16,38 @@
   height: 3rem;
   margin: 0.5rem;
 }
+.back {
+  color: white;
+  position: absolute;
+  z-index: 1;
+  top: 1rem;
+  left: 20rem;
+  visibility: hidden;
+}
 @media screen and (max-width: 1200px) {
   .name {
     left: 23rem;
+  }
+}
+@media screen and (max-width: 600px) {
+  .nav {
+    position: absolute;
+
+    width: 23rem;
+    left: 0rem;
+    height: 4rem;
+    background: black;
+  }
+  .dp {
+    top: -0.2rem;
+    position: relative;
+  }
+  .name {
+    left: 4rem;
+    width: 8rem;
+    top: 0.3rem;
+  }
+  .back {
+    visibility: visible;
   }
 }

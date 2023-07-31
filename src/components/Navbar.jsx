@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Styles from "../assets/css/Navbar.module.css";
+import { useNavigate } from "react-router-dom";
 function Navbar({
   friendName,
   backColor,
@@ -9,7 +10,7 @@ function Navbar({
   inputFcoused,
 }) {
   const [searchMessage, setSearchMessage] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (conversation) {
       const collegeList = conversation.map((item) => {
@@ -21,6 +22,10 @@ function Navbar({
       setSearchMessage([...collegeList]);
     }
   }, [conversation]);
+  const handleBack = async () => {
+    await navigate(-1);
+  };
+
   return (
     <nav style={{ backgroundColor: backColor }} className={Styles.nav}>
       <div className="container-fluid">
@@ -31,6 +36,10 @@ function Navbar({
             <br />
             {inputFcoused ? "Typing.." : friendStatus ? "Online" : "Offline"}
           </span>
+          <i
+            className={`fa-solid fa-arrow-right-to-bracket ${Styles.back}`}
+            onClick={handleBack}
+          ></i>
         </div>
         {/* {searchMessage && (
           <Select

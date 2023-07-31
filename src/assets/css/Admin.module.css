@@ -41,3 +41,13 @@
   z-index: 2;
   left: 0.3rem;
 }
+@media screen and (max-width: 600px) {
+  .box {
+    width: 94%;
+    height: 7%;
+    top: 0rem;
+  }
+  .img {
+    left: 20rem;
+  }
+}

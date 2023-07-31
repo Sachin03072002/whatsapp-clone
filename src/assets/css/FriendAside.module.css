@@ -59,3 +59,11 @@ small {
     width: 13rem;
   }
 }
+
+@media screen and (max-width: 1200px) {
+  .box {
+    width: 22rem;
+    z-index: 1;
+    position: absolute;
+  }
+}
