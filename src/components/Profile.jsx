@@ -24,7 +24,9 @@ function Profile() {
   const [friendList, setFriendList] = useState([]);
   const [userFriendData, setUserFriendData] = useState([]);
   const [newFriend, setNewFriend] = useState([]);
-  const [ListVisible, setListVisible] = useState(-1);
+  const [ListVisible, setListVisible] = useState(
+    window.innerWidth <= 600 ? -1 : 0
+  );
 
   // const [showModal, setShowModal] = useState(null);
 

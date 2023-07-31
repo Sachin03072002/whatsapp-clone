@@ -144,6 +144,7 @@
   color: white;
   position: absolute;
   bottom: 1rem;
+  visibility: hidden;
 }
 
 /* existing friendList */
@@ -204,7 +205,7 @@
     width: 23rem;
     background: #403e3e;
   }
-  .friendsIcon {
+  .friendIcon {
     visibility: visible;
   }
   .poweroff {
