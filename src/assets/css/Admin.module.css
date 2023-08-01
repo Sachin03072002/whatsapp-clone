@@ -41,6 +41,13 @@
   z-index: 2;
   left: 0.3rem;
 }
+
+@media screen and (max-width: 1000px) {
+  .icon {
+    top: 62.5rem;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .box {
     width: 94%;
@@ -49,5 +56,19 @@
   }
   .img {
     left: 20rem;
+  }
+  .icon {
+    top: 0.5rem;
+    left: 19.5rem;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .img {
+    left: 22rem;
+  }
+  .icon {
+    left: 21.5rem;
+    top: 1rem;
   }
 }

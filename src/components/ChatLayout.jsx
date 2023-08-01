@@ -105,7 +105,13 @@ function ChatLayout() {
             )}
             <div className={Styles.friendList}>
               {isLoading ? (
-                <p>Loading...</p>
+                <div>
+                  <img
+                    src="https://edumars.net/skin/web/images/loading.gif"
+                    className={Styles.loader}
+                    alt="loader"
+                  />
+                </div>
               ) : userFriendData.length > 0 ? (
                 userFriendData.map((item, i) => (
                   <FriendAside

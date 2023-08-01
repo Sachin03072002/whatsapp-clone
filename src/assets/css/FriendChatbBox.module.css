@@ -9,7 +9,7 @@
   width: 102%;
 }
 .input {
-  width: 50rem;
+  width: 53rem;
   border-radius: 5rem;
   padding: 0.5rem;
 }
@@ -23,6 +23,11 @@
     width: 42rem;
   }
 }
+@media screen and (max-width: 1000px) {
+  .input {
+    width: 33rem;
+  }
+}
 @media screen and (max-width: 600px) {
   .form {
     position: absolute;
@@ -31,5 +36,14 @@
   }
   .input {
     width: 20rem;
+  }
+}
+@media screen and (max-width: 300px) {
+  .input-group {
+    position: relative;
+    bottom: 1rem;
+  }
+  .input {
+    width: 22rem;
   }
 }

@@ -29,6 +29,11 @@
     left: 23rem;
   }
 }
+@media screen and (max-width: 1000px) {
+  .name {
+    left: 5rem;
+  }
+}
 @media screen and (max-width: 600px) {
   .nav {
     position: absolute;
@@ -49,5 +54,16 @@
   }
   .back {
     visibility: visible;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .nav {
+    width: 26rem;
+    height: 5rem;
+  }
+  .back {
+    left: 22rem;
+    top: 1.5rem;
   }
 }

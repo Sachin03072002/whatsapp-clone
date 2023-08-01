@@ -83,6 +83,13 @@
 H1 {
   height: fit-content;
 }
+.loader {
+  width: 4rem;
+  position: absolute;
+  top: 40%;
+  left: 28%;
+  background-blend-mode: color-burn;
+}
 
 /* Tablet view  */
 @media screen and (max-width: 1200px) {
@@ -97,6 +104,22 @@ H1 {
   }
   .horizontal {
     width: 12rem;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .div {
+    width: 10rem;
+  }
+  .line {
+    left: 13.5rem;
+  }
+  .searchinput {
+    width: 8rem;
+  }
+  .section {
+    position: relative;
+    /* top: 3rem; */
   }
 }
 
@@ -122,5 +145,19 @@ H1 {
   }
   .line {
     visibility: hidden;
+  }
+  .loader {
+    left: 40%;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .div {
+    border: 2px solid red;
+    width: 24rem;
+    height: 89vh;
+  }
+  .searchinput {
+    width: 22rem;
   }
 }

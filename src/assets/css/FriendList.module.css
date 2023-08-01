@@ -66,3 +66,8 @@ small {
   margin-right: 1rem;
   cursor: pointer;
 }
+@media screen and (max-width: 1000px) {
+  .H1 {
+    font-size: 0.8rem;
+  }
+}

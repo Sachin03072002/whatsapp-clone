@@ -40,7 +40,9 @@ function FriendList({
       .firestore()
       .collection("newFriendRequest")
       .add({ friendRequest });
-    NotificationManager.success("Friend Request send Successfully", "Success");
+    setTimeout(() => {
+      NotificationManager.success("Request Send ...", "Success");
+    }, 1000);
   };
   const handleAcceptFriendRequest = async () => {
     try {
@@ -102,17 +104,18 @@ function FriendList({
           .doc(friendRequest.id)
           .delete();
         // Show a success notification
-        NotificationManager.success(
-          "Friend request accepted successfully!",
-          "Success"
-        );
+        setTimeout(() => {
+          NotificationManager.success("Request Accepted...", "Success");
+        }, 1000);
       } else {
         // If the friend request is not found
         console.log("Friend request not found for the given sender.");
       }
     } catch (error) {
       console.error("Error accepting friend request:", error);
-      NotificationManager.error("Failed to accept friend request.", "Error");
+      setTimeout(() => {
+        NotificationManager.error("Failed in Accepting Request..", "Error");
+      }, 1000);
     }
   };
   const handlerejectFriendRequest = async () => {
@@ -135,10 +138,9 @@ function FriendList({
           .doc(friendRequest.id)
           .delete();
         // Show a success notification
-        NotificationManager.success(
-          "Friend request Rejected successfully!",
-          "Success"
-        );
+        setTimeout(() => {
+          NotificationManager.success("Request Declined....", "Success");
+        }, 1000);
       }
     } catch (err) {
       console.log(err);
@@ -184,10 +186,14 @@ function FriendList({
         .update({ friends: updatedUserFriendArray });
 
       // Show a success notification
-      NotificationManager.success("Blocked successfully!", "Success");
+      setTimeout(() => {
+        NotificationManager.success("User Blocked...", "Success");
+      }, 1000);
     } catch (error) {
       console.error("Error blocking friend:", error);
-      NotificationManager.error("Failed to block friend.", "Error");
+      setTimeout(() => {
+        NotificationManager.error("Unable to block USer..", "Error");
+      }, 1000);
     }
   };
 

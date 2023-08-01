@@ -68,6 +68,11 @@
   color: gray;
   text-align: right;
 }
+@media screen and (max-width: 1000px) {
+  .section {
+    height: 84%;
+  }
+}
 @media screen and (max-width: 600px) {
   .section {
     position: absolute;
@@ -76,5 +81,12 @@
     width: 22rem;
     height: 33.9rem;
     z-index: 1;
+  }
+}
+@media screen and (max-width: 300px) {
+  .section {
+    top: 5rem;
+    width: 24.5rem;
+    height: 46rem;
   }
 }
