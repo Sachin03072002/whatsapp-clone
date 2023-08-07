@@ -6,7 +6,7 @@ import "firebase/compat/firestore";
 function Conversation({ conversation, uniqueId }) {
   const params = useParams();
   const friendId = params.friendId;
-  const adminId = params.AdminId;
+  const adminId = params.adminId;
   const [conversationData, setConversationData] = useState(null);
   useEffect(() => {
     if (conversation) {

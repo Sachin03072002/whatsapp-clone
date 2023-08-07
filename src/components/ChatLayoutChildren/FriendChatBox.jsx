@@ -8,14 +8,13 @@ import Styles from "../../assets/css/FriendChatbBox.module.css";
 import { format } from "date-fns";
 function FriendChatBox() {
   const params = useParams();
-  const adminId = params.AdminId;
+  const adminId = params.adminId;
   const friendId = params.friendId;
   const [friendData, setFriendData] = useState([]);
   const [conversationData, setConversationData] = useState([]);
   const [generatedId, setGeneratedId] = useState(null);
   const [message, setMessage] = useState("");
   const [inputFocus, setInputFocus] = useState(false);
-
   function generateConversationId(str1, str2) {
     const sortedIds = [str1, str2].sort();
     return sortedIds.join("");
@@ -29,29 +28,31 @@ function FriendChatBox() {
       .collection("friendsConversation")
       .where("conversationId", "==", conversationId)
       .get();
+
+    const newMessage = { friendId: adminId, message, time };
+
     if (conversationSnapshot.docs[0]) {
       const docData = conversationSnapshot.docs[0].data();
-      const conversation = [
-        ...docData.conversation,
-        { friendId: adminId, message, time },
-      ];
+      const conversation = [...docData.conversation, newMessage];
       const docId = conversationSnapshot.docs[0].id;
       await firebase
         .firestore()
         .collection("friendsConversation")
         .doc(docId)
-        .set({ ...docData, conversation });
+        .update({ conversation });
     } else {
       await firebase
         .firestore()
         .collection("friendsConversation")
         .add({
           conversationId: conversationId,
-          conversation: [{ friendId: adminId, message, time }],
+          conversation: [newMessage],
         });
     }
+
     setMessage("");
   }
+
   useEffect(() => {
     const conversationId = generateConversationId(adminId, friendId);
     setGeneratedId(conversationId);
@@ -90,7 +91,7 @@ function FriendChatBox() {
         uniqueId={generatedId}
       />
       <form onSubmit={onSubmitHandler} className={Styles.form}>
-        <div className="input-group">
+        <div className={Styles.inputGroup}>
           <input
             type="text"
             className={Styles.input}

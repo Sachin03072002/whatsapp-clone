@@ -37,6 +37,10 @@
   .input {
     width: 20rem;
   }
+  .inputGroup {
+    position: relative;
+    bottom: 2rem;
+  }
 }
 @media screen and (max-width: 300px) {
   .input-group {

@@ -147,9 +147,9 @@ label {
     position: relative;
   }
   .DetailsForm {
-    top: 7rem;
-    width: 86%;
-    height: 30rem;
+    flex-direction: column;
+    align-items: end;
+    top: -4rem;
   }
 }
 @media screen and (max-width: 300px) {

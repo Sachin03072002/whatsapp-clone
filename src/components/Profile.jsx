@@ -13,7 +13,7 @@ import "react-notifications/lib/notifications.css";
 
 function Profile() {
   const params = useParams();
-  const adminId = params.AdminId;
+  const adminId = params.adminId;
   const navigate = useNavigate();
   const [adminData, setAdminData] = useState(null);
   const [newImage, setNewImage] = useState(null); // State to store the new image file

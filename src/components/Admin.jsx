@@ -4,12 +4,12 @@ import Styles from "../assets/css/Admin.module.css";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 
-function Admin({ adminId, adminName, adminPhoto, status }) {
+function Admin({ adminId, adminPhoto, ViewUserStatus, hasUpdate }) {
   const navigate = useNavigate();
   const [length, setLength] = useState(0);
 
   // Handle the click event on the image
-  const handleImageClick = () => {
+  const handleProfileImageClick = () => {
     navigate(`/whatsapp-web/profile/${adminId}`);
   };
   //whenever the component mounts it will call this function
@@ -22,7 +22,6 @@ function Admin({ adminId, adminName, adminPhoto, status }) {
           .where("friendRequest.receiver", "==", adminId)
           .get();
         setLength(snapshot.size);
-        console.log(snapshot.size);
       } catch (error) {
         console.error("error fetching data", error);
       }
@@ -48,12 +47,23 @@ function Admin({ adminId, adminName, adminPhoto, status }) {
   return (
     <React.Fragment>
       <div className={Styles.box}>
+        <div
+          className={Styles.statusICon}
+          style={
+            hasUpdate ? { color: "green" } : {} // Conditionally apply green border for isRecent, grey border otherwise
+          }
+        >
+          <i
+            className="fa-solid fa-circle-radiation"
+            onClick={() => ViewUserStatus()}
+          ></i>
+        </div>
         <div className={Styles.icon}>{length}</div>
         <img
           src={adminPhoto}
           alt="."
           className={Styles.img}
-          onClick={handleImageClick}
+          onClick={handleProfileImageClick}
         />
       </div>
     </React.Fragment>

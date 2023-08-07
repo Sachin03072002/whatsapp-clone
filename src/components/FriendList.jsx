@@ -17,10 +17,6 @@ function FriendList({
   UserOnline,
   friendship,
   relationship,
-
-  // onAddFriend,
-  // ShowModalForUser,
-  // setShowModal,/
 }) {
   const onlineStatus = UserOnline ? { color: "lightgreen" } : { color: "red" };
   const hoverColor = friendship ? { color: "red" } : { color: "green" };

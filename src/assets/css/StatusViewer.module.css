@@ -1,0 +1,24 @@
+.container {
+  display: grid;
+  position: relative;
+  z-index: 999;
+}
+.statusImg {
+  margin-top: auto;
+  width: auto !important;
+  height: 33rem;
+}
+.legend {
+  background: black;
+  color: white;
+}
+@media screen and (max-width: 600px) {
+  .container {
+    background: black;
+    height: 38rem;
+    width: 23rem;
+    left: -6rem;
+    top: 4rem;
+    background: black;
+  }
+}

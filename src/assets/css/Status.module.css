@@ -1,0 +1,122 @@
+H1 {
+  height: fit-content;
+}
+.searchinput {
+  width: 15rem;
+  border: 1px solid black;
+  color: white;
+  border-radius: 4rem;
+  margin-left: 1rem;
+  padding: 0.5rem;
+}
+.photoSelect {
+  border: none;
+  font-size: 2rem;
+  background: black;
+  color: grey;
+  border-radius: 50%;
+  padding: 0.8rem;
+  position: fixed;
+  bottom: 2rem;
+  right: 60rem;
+}
+.photoSelect:hover {
+  background-color: grey;
+  color: white;
+}
+.customModalStyles {
+  position: absolute;
+  inset: 10rem;
+  border: 1px solid rgb(204, 204, 204);
+  background: rgb(255, 255, 255);
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  width: 50rem;
+  height: 30rem;
+  margin: auto;
+}
+/* Add this to your Status.module.css */
+.imagePreview {
+  max-width: 100%;
+  max-height: 400px;
+  margin: 10px 0;
+}
+
+.Imginput {
+  width: 100%;
+  display: block;
+}
+.ReactModal__Overlay {
+  inset: 8rem !important;
+}
+@media screen and (max-width: 1200px) {
+  .div {
+    width: 13rem;
+  }
+  .line {
+    left: 17rem;
+  }
+  .searchinput {
+    width: 11rem;
+  }
+  .horizontal {
+    width: 12rem;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .div {
+    width: 10rem;
+  }
+  .line {
+    left: 13.5rem;
+  }
+  .searchinput {
+    width: 8rem;
+  }
+  .section {
+    position: relative;
+    /* top: 3rem; */
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .main {
+    overflow-x: hidden;
+    height: 101vh;
+  }
+  .div {
+    position: absolute;
+    top: 5rem;
+    width: 21rem;
+    left: 1rem;
+    z-index: 1;
+    height: 36rem;
+    overflow-x: hidden;
+  }
+  .searchinput {
+    width: 19rem;
+  }
+  .horizontal {
+    width: 20rem;
+  }
+  .line {
+    visibility: hidden;
+  }
+  .loader {
+    left: 40%;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .div {
+    border: 2px solid red;
+    width: 24rem;
+    height: 89vh;
+  }
+  .searchinput {
+    width: 22rem;
+  }
+}

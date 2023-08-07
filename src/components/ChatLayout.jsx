@@ -5,18 +5,29 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import Admin from "./Admin";
 import FriendAside from "./FriendAside";
+import Status from "./Status";
 function ChatLayout() {
   const params = useParams();
 
-  const adminId = params.AdminId;
+  const adminId = params.adminId;
 
   const [userFriendData, setUserFriendData] = useState([]);
 
   const [adminData, setAdminData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSearch, setIsSearch] = useState(true);
+  const [showStatus, setShowStatus] = useState(false);
+  const [hasRecentUpdate, setHasRecentUpdate] = useState(false);
+
+  // Callback function to receive the boolean value from Status component
+  const handleCheckRecentUpdate = (hasUpdate) => {
+    setHasRecentUpdate(hasUpdate);
+  };
   const hideSearchBar = () => {
     setIsSearch(false);
+  };
+  const ViewUserStatus = () => {
+    setShowStatus((val) => !val);
   };
 
   useEffect(() => {
@@ -82,51 +93,64 @@ function ChatLayout() {
                 adminName={adminData.name}
                 adminPhoto={adminData.photo}
                 status={adminData.status}
+                ViewUserStatus={ViewUserStatus}
+                hasUpdate={hasRecentUpdate}
               />
             )}
           </div>
           <hr className={Styles.line} />
           <div className={Styles.div}>
-            {isSearch && (
+            {showStatus ? (
+              <Status
+                adminId={adminData.id}
+                adminPhoto={adminData.photo}
+                adminName={adminData.name}
+                checkRecentUpdate={handleCheckRecentUpdate}
+              />
+            ) : (
               <>
-                <div>
-                  <h1 className={Styles.H1}>
-                    <input
-                      type="search"
-                      name="search"
-                      id="search-bar"
-                      placeholder="Search.."
-                      className={Styles.searchinput}
-                    />
-                  </h1>
+                {isSearch && (
+                  <>
+                    <div>
+                      <h1 className={Styles.H1}>
+                        <input
+                          type="search"
+                          name="search"
+                          id="search-bar"
+                          placeholder="Search.."
+                          className={Styles.searchinput}
+                        />
+                      </h1>
+                    </div>
+                    <hr className={Styles.horizontal} />
+                  </>
+                )}
+                <div className={Styles.friendList}>
+                  {isLoading ? (
+                    <div>
+                      <img
+                        src="https://edumars.net/skin/web/images/loading.gif"
+                        className={Styles.loader}
+                        alt="loader"
+                      />
+                    </div>
+                  ) : userFriendData.length > 0 ? (
+                    userFriendData.map((item, i) => (
+                      <FriendAside
+                        key={i}
+                        UserId={item.id}
+                        UserName={item.name}
+                        UserPhoto={item.photo}
+                        UserOnline={item.status}
+                        hideSearchBar={hideSearchBar}
+                      />
+                    ))
+                  ) : (
+                    <p>No Data Found</p>
+                  )}
                 </div>
-                <hr className={Styles.horizontal} />
               </>
             )}
-            <div className={Styles.friendList}>
-              {isLoading ? (
-                <div>
-                  <img
-                    src="https://edumars.net/skin/web/images/loading.gif"
-                    className={Styles.loader}
-                    alt="loader"
-                  />
-                </div>
-              ) : userFriendData.length > 0 ? (
-                userFriendData.map((item, i) => (
-                  <FriendAside
-                    key={i}
-                    UserId={item.id}
-                    UserName={item.name}
-                    UserPhoto={item.photo}
-                    UserOnline={item.status}
-                    hideSearchBar={hideSearchBar}
-                  />
-                ))
-              ) : (
-                <p>No Data Found</p>
-              )}
-            </div>
           </div>
         </aside>
         <div className={Styles.chatBox}>

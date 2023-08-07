@@ -41,7 +41,12 @@
   z-index: 2;
   left: 0.3rem;
 }
-
+.statusICon {
+  display: grid;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
 @media screen and (max-width: 1000px) {
   .icon {
     top: 62.5rem;
@@ -60,6 +65,10 @@
   .icon {
     top: 0.5rem;
     left: 19.5rem;
+  }
+  .statusICon {
+    position: relative;
+    top: 0.3rem;
   }
 }
 

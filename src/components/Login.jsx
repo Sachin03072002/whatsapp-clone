@@ -9,16 +9,14 @@ import {
 } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 function Login() {
-  const [emailId, setEmailId] = useState();
-  const [password, setPassword] = useState();
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   async function onSubmitHandler(event) {
     event.preventDefault();
 
     // Validate that both emailId and password have values
     if (!emailId || !password) {
-      console.log(emailId);
-      console.log(password);
       console.error("emailId and password are required.");
       setTimeout(() => {
         NotificationManager.error("Credentials Required", "Error");
@@ -26,41 +24,43 @@ function Login() {
       return;
     }
 
-    // Separate where clauses for emailId and password
+    // Check if the email exists in the database
     const snapshot = await firebase
       .firestore()
       .collection("users")
       .where("email", "==", emailId)
-      .where("password", "==", password)
       .get();
-    let passwordMatch = false;
+
     if (snapshot.docs.length > 0) {
-      passwordMatch = true;
-      console.log(snapshot.docs);
-      const docId = snapshot.docs[0].id;
+      // Email exists in the database, now check for the password match
       const doc = snapshot.docs[0].data();
-      console.log(doc);
-      setTimeout(() => {
-        NotificationManager.success("Successfully Logged In..", "Success");
-      }, 1000);
-      navigate(`/whatsappweb/${doc.id}`);
-      await firebase
-        .firestore()
-        .collection("users")
-        .doc(docId)
-        .update({ status: true });
-    } else {
-      if (snapshot.docs.length > 0 && passwordMatch === false) {
+      if (doc.password === password) {
+        // Password match, log in the user
+
+        const docId = snapshot.docs[0].id;
+
+        setTimeout(() => {
+          NotificationManager.success("Successfully Logged In..", "Success");
+        }, 1000);
+        navigate(`/whatsappweb/${doc.id}`);
+        await firebase
+          .firestore()
+          .collection("users")
+          .doc(docId)
+          .update({ status: true });
+      } else {
+        // Incorrect Password
         setTimeout(() => {
           NotificationManager.error("Incorrect Password", "Error");
         }, 1000);
-      } else {
-        setTimeout(() => {
-          NotificationManager.error("User Not Found", "Error");
-        }, 1000);
-        navigate("/whatsappweb/signup");
-        console.log("redirected");
+        setPassword("");
       }
+    } else {
+      // User Not Found
+      setTimeout(() => {
+        NotificationManager.error("User Not Found", "Error");
+      }, 1000);
+      navigate("/whatsappweb/signup");
     }
   }
 
@@ -76,9 +76,7 @@ function Login() {
           placeholder="Enter ID..."
           required
           value={emailId}
-          onChange={(e) => {
-            setEmailId(e.target.value);
-          }}
+          onChange={(e) => setEmailId(e.target.value)}
         />
         <input
           type="password"
@@ -87,9 +85,7 @@ function Login() {
           placeholder="Enter Your Password.."
           required
           value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <div className="d-flex justify-content-between w-100">
           <button className={Styles.button} type="submit">
