@@ -108,6 +108,9 @@ H1 {
   .loader {
     left: 40%;
   }
+  .photoSelect {
+    right: 2rem;
+  }
 }
 
 @media screen and (max-width: 300px) {

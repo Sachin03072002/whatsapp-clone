@@ -8,6 +8,7 @@ function Conversation({ conversation, uniqueId }) {
   const friendId = params.friendId;
   const adminId = params.adminId;
   const [conversationData, setConversationData] = useState(null);
+
   useEffect(() => {
     if (conversation) {
       (async () => {

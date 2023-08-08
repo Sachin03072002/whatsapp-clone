@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Styles from "../assets/css/Navbar.module.css";
 import { useNavigate } from "react-router-dom";
 function Navbar({
@@ -9,19 +9,19 @@ function Navbar({
   friendStatus,
   inputFcoused,
 }) {
-  const [searchMessage, setSearchMessage] = useState([]);
+  // const [searchMessage, setSearchMessage] = useState([]);
   const navigate = useNavigate();
-  useEffect(() => {
-    if (conversation) {
-      const collegeList = conversation.map((item) => {
-        return {
-          value: item.message,
-          label: item.message,
-        };
-      });
-      setSearchMessage([...collegeList]);
-    }
-  }, [conversation]);
+  // useEffect(() => {
+  //   if (conversation) {
+  //     const collegeList = conversation.map((item) => {
+  //       return {
+  //         value: item.message,
+  //         label: item.message,
+  //       };
+  //     });
+  //     // setSearchMessage([...collegeList]);
+  //   }
+  // }, [conversation]);
   const handleBack = async () => {
     await navigate(-1);
   };

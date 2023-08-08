@@ -15,14 +15,16 @@ function FriendChatBox() {
   const [generatedId, setGeneratedId] = useState(null);
   const [message, setMessage] = useState("");
   const [inputFocus, setInputFocus] = useState(false);
+
   function generateConversationId(str1, str2) {
     const sortedIds = [str1, str2].sort();
     return sortedIds.join("");
   }
+  const conversationId = generateConversationId(adminId, friendId);
   async function onSubmitHandler(event) {
     event.preventDefault();
     const time = format(new Date(), "hh:mm a");
-    const conversationId = generateConversationId(adminId, friendId);
+
     const conversationSnapshot = await firebase
       .firestore()
       .collection("friendsConversation")

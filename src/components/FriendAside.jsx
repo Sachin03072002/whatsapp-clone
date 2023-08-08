@@ -7,7 +7,7 @@ function FriendAside({ UserId, UserName, UserPhoto, UserOnline }) {
   // const [isHidden, setIsHidden] = useState(false);
   const params = useParams();
   const [lastMessage, setLastMessage] = useState();
-  const adminId = params.AdminId;
+  const adminId = params.adminId;
   const conversationId = generateConversationID(adminId, UserId);
   const activeNavLink = { backgroundColor: "#333", color: "aliceBlue" };
   const onlineStatus = UserOnline ? { color: "lightgreen" } : { color: "red" };
