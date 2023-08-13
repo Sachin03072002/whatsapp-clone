@@ -4,16 +4,17 @@ import Styles from "../assets/css/Admin.module.css";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 
-function Admin({ adminId, adminPhoto, ViewUserStatus, hasUpdate }) {
+function Admin({ adminId, adminPhoto, ViewUserStatus, hasUpdate, activity }) {
   const navigate = useNavigate();
   const [length, setLength] = useState(0);
 
   // Handle the click event on the image
   const handleProfileImageClick = () => {
-    navigate(`/whatsapp-web/profile/${adminId}`);
+    navigate(`/whatsapp-web/profile/${adminId}`, { state: { activity } });
   };
-  //whenever the component mounts it will call this function
+
   useEffect(() => {
+    //whenever the component mounts it will call this function
     const FriendNum = async () => {
       try {
         const snapshot = await firebase

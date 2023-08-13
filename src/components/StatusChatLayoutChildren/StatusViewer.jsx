@@ -6,6 +6,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+
 function StatusViewer() {
   const params = useParams();
   const adminId = params.adminId;
@@ -28,7 +29,7 @@ function StatusViewer() {
         console.log("error", err);
       }
     };
-    // Fetch the status data from Firestore
+
     const fetchStatusData = async () => {
       try {
         const statusSnapshot = await firebase
@@ -50,16 +51,15 @@ function StatusViewer() {
   }, [adminId, statusId]);
 
   useEffect(() => {
-    // Set interval to update the currentIndex every 30 seconds
     const intervalId = setInterval(() => {
       setCurrentIndex((prevIndex) =>
         prevIndex === statusData?.file?.length - 1 ? 0 : prevIndex + 1
       );
     }, 30000);
 
-    // Clear the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, [statusData]);
+
   return (
     <div>
       {adminData && (
@@ -79,18 +79,24 @@ function StatusViewer() {
               showThumbs={false}
               autoPlay
               interval={15000}
+              className={Styles.carouselContainer} // Apply custom CSS class for styling
             >
-              {/* {statusData.file.map((image, index) => { */}
-              {/* console.log(image); */}
-              <div>
-                <img
-                  src={statusData.file[0]}
-                  alt={`Status`}
-                  className={Styles.statusImg}
-                />
-                <p className={`legend ${Styles.legend}`}>{statusData.text}</p>
-              </div>
-              ;{/* })} */}
+              {statusData.file.map((image, index) => (
+                <div key={index} className={Styles.carouselItem}>
+                  <img
+                    src={image.image} // Update to the correct image source
+                    key={index}
+                    alt={`Status`}
+                    className={Styles.statusImg}
+                  />
+                  {image.text && (
+                    <p className={`legend ${Styles.legend}`}>
+                      {image.text}{" "}
+                      {/* Display the text associated with the image */}
+                    </p>
+                  )}
+                </div>
+              ))}
             </Carousel>
           )}
         </div>

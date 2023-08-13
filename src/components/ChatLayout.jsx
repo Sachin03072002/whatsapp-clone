@@ -18,6 +18,9 @@ function ChatLayout() {
   const [isSearch, setIsSearch] = useState(true);
   const [showStatus, setShowStatus] = useState(false);
   const [hasRecentUpdate, setHasRecentUpdate] = useState(false);
+  const [isActive, setIsActive] = useState(true);
+  // eslint-disable-next-line
+  const userActivityEvents = ["mousemove", "mousedown", "keydown", "scroll"];
 
   // Callback function to receive the boolean value from Status component
   const handleCheckRecentUpdate = (hasUpdate) => {
@@ -31,6 +34,19 @@ function ChatLayout() {
   };
 
   useEffect(() => {
+    const setActive = () => {
+      setIsActive(true);
+    };
+    const setInActive = () => {
+      setIsActive(false);
+    };
+    //Attach event listeners to track activity
+    userActivityEvents.forEach((event) => {
+      document.addEventListener(event, setInActive);
+    });
+    const inActivityTimer = setInterval(() => {
+      setInActive();
+    }, 5000);
     //setting up the logged in current user
     (async () => {
       const adminSnapshot = await firebase
@@ -79,9 +95,14 @@ function ChatLayout() {
       }
     }, 1000);
     return () => {
+      userActivityEvents.forEach((event) => {
+        document.removeEventListener(event, setActive);
+      });
       clearInterval(friendIntervalId);
+      clearInterval(inActivityTimer);
     };
-  }, [adminId]);
+    // eslint-disable-next-line
+  }, [adminId, userActivityEvents]);
   return (
     <main className={Styles.main}>
       <section className={Styles.section}>
@@ -95,6 +116,7 @@ function ChatLayout() {
                 status={adminData.status}
                 ViewUserStatus={ViewUserStatus}
                 hasUpdate={hasRecentUpdate}
+                activity={isActive}
               />
             )}
           </div>

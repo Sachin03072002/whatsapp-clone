@@ -3,14 +3,15 @@ import Styles from "../assets/css/FriendAside.module.css";
 import { NavLink, useParams } from "react-router-dom";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
+
 function FriendAside({ UserId, UserName, UserPhoto, UserOnline }) {
-  // const [isHidden, setIsHidden] = useState(false);
   const params = useParams();
   const [lastMessage, setLastMessage] = useState();
   const adminId = params.adminId;
   const conversationId = generateConversationID(adminId, UserId);
   const activeNavLink = { backgroundColor: "#333", color: "aliceBlue" };
   const onlineStatus = UserOnline ? { color: "lightgreen" } : { color: "red" };
+
   function generateConversationID(str1, str2) {
     if (str1 < str2) {
       return str1 + str2;
@@ -29,20 +30,20 @@ function FriendAside({ UserId, UserName, UserPhoto, UserOnline }) {
     };
     updateLastMessage();
   }, [conversationId, lastMessage]);
+
   useEffect(() => {
     const intervalId = setInterval(async () => {
       const docRef = firebase
         .firestore()
         .collection("lastConversation")
         .doc(conversationId);
-      //check if the document exists
       const docSnapshot = await docRef.get();
       if (docSnapshot.exists) {
-        setLastMessage(docSnapshot.data().lastMessage);
+        const fullLastMessage = docSnapshot.data().lastMessage;
+        const trimmedLastMessage = trimTo10Characters(fullLastMessage);
+        setLastMessage(trimmedLastMessage);
       } else {
-        //handle the case when the document is not found
         console.log("document does not exist");
-        //create a new document
         await docRef.set({ lastMessage: "" });
       }
     }, 1000);
@@ -50,6 +51,13 @@ function FriendAside({ UserId, UserName, UserPhoto, UserOnline }) {
       clearInterval(intervalId);
     };
   }, [conversationId]);
+
+  const trimTo10Characters = (message) => {
+    if (message.length <= 10) {
+      return message;
+    }
+    return message.substring(0, 10) + "...";
+  };
 
   return (
     <section key={UserId}>

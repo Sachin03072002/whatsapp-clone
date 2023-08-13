@@ -1,27 +1,24 @@
 import React from "react";
 import Styles from "../assets/css/Navbar.module.css";
 import { useNavigate } from "react-router-dom";
+
 function Navbar({
   friendName,
   backColor,
   friendPhoto,
   conversation,
   friendStatus,
-  inputFcoused,
+  friendTyping,
 }) {
-  // const [searchMessage, setSearchMessage] = useState([]);
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (conversation) {
-  //     const collegeList = conversation.map((item) => {
-  //       return {
-  //         value: item.message,
-  //         label: item.message,
-  //       };
-  //     });
-  //     // setSearchMessage([...collegeList]);
-  //   }
-  // }, [conversation]);
+  const typingStatusStyle = {
+    color: friendTyping ? "green" : "inherit", // Change color to green if friend is typing
+  };
+
+  const typingStatusClass = friendTyping
+    ? "animate__animated animate__pulse animate__infinite"
+    : "";
+
   const handleBack = async () => {
     await navigate(-1);
   };
@@ -34,27 +31,21 @@ function Navbar({
           <span className={Styles.name}>
             {friendName}
             <br />
-            {inputFcoused ? "Typing.." : friendStatus ? "Online" : "Offline"}
+            <span className={typingStatusClass} style={typingStatusStyle}>
+              {friendTyping ? (
+                <b>Typing..</b>
+              ) : friendStatus ? (
+                "Online"
+              ) : (
+                "Offline"
+              )}
+            </span>
           </span>
           <i
             className={`fa-solid fa-arrow-right-to-bracket ${Styles.back}`}
             onClick={handleBack}
           ></i>
         </div>
-        {/* {searchMessage && (
-          <Select
-            options={searchMessage}
-            isClearable
-            isSearchable
-            style={{
-              container: (base) => ({
-                ...base,
-                width: "40%",
-                minWidth: 400,
-                marginRight: "25px",
-              }),
-            }} */}
-        {/* /> )} */}
       </div>
     </nav>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Styles from "../assets/css/Profile.module.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/storage";
@@ -13,6 +13,8 @@ import "react-notifications/lib/notifications.css";
 
 function Profile() {
   const params = useParams();
+  const location = useLocation();
+  const { activity } = location.state;
   const adminId = params.adminId;
   const navigate = useNavigate();
   const [adminData, setAdminData] = useState(null);
@@ -182,7 +184,10 @@ function Profile() {
     }, 1000);
     navigate("/");
   }
-
+  console.log(activity);
+  // if (!activity) {
+  //   onLogOutHandler();
+  // }
   const updateImage = async () => {
     if (newImage) {
       try {

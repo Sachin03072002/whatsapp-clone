@@ -10,6 +10,7 @@ import {
   NotificationManager,
 } from "react-notifications";
 import "react-notifications/lib/notifications.css";
+
 function Status({ adminId, adminPhoto, adminName, checkRecentUpdate }) {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState(null);
@@ -17,11 +18,22 @@ function Status({ adminId, adminPhoto, adminName, checkRecentUpdate }) {
   const [modalText, setModalText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const [otherStatus, setOtherStatus] = useState(null);
+  const [isStatusViewerVisible, setStatusViewerVisible] = useState(true);
+  const toggleStatusViewer = () => {
+    setStatusViewerVisible(!isStatusViewerVisible);
+  };
   const handleModalSubmit = async () => {
-    await UpdateStatus();
-    setIsModalOpen(false);
-    fetchStatusInfo();
-    checkRecentUpdate(true);
+    try {
+      await UpdateStatus();
+      setIsModalOpen(false);
+      setModalText("");
+      setImagePreview(null);
+      fetchStatusInfo();
+      checkRecentUpdate(true);
+    } catch (err) {
+      console.log(err);
+      NotificationManager.error("Error updating/creating status");
+    }
   };
 
   // Function to handle the profile picture file change
@@ -37,24 +49,68 @@ function Status({ adminId, adminPhoto, adminName, checkRecentUpdate }) {
       };
     }
   };
-
   const UpdateStatus = async () => {
-    const statusSnapshot = {
-      id: uuidv4(),
-      adminId: adminId,
-      adminName: adminName,
-      adminPhoto: adminPhoto,
-      file: imagePreview ? [imagePreview] : [],
-      text: modalText,
-      visitor: [],
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    };
-    await firebase.firestore().collection("status").add({ statusSnapshot });
-    setTimeout(() => {
-      NotificationManager.success("Status Updated...", "Success");
-    }, 1000);
-    console.log("updatd");
+    try {
+      const timestamp = firebase.firestore.Timestamp.now(); // Generate a timestamp
+
+      const existingStatusSnapshot = await firebase
+        .firestore()
+        .collection("status")
+        .where("statusSnapshot.adminId", "==", adminId)
+        .get();
+
+      if (!existingStatusSnapshot.empty) {
+        const existingStatusDoc = existingStatusSnapshot.docs[0];
+        const existingStatusDocRef = existingStatusDoc.ref;
+
+        const existingStatusData = existingStatusDoc.data().statusSnapshot;
+
+        const newFileItem = {
+          id: uuidv4(),
+          image: imagePreview ? imagePreview : "",
+          text: modalText ? modalText : "",
+          createdAt: timestamp, // Use the generated timestamp here
+        };
+
+        const updatedFileArray = [...existingStatusData.file, newFileItem];
+
+        await existingStatusDocRef.update({
+          "statusSnapshot.file": updatedFileArray,
+        });
+
+        NotificationManager.success("Status Updated...", "Success");
+      } else {
+        const newStatusSnapshot = {
+          id: uuidv4(),
+          adminId: adminId,
+          adminName: adminName,
+          adminPhoto: adminPhoto,
+          createdAt: timestamp, // Use the generated timestamp here
+          visitor: [],
+        };
+
+        const newFileItem = {
+          id: uuidv4(),
+          createdAt: timestamp, // Use the generated timestamp here
+          image: imagePreview ? imagePreview : "",
+          text: modalText ? modalText : "",
+        };
+
+        newStatusSnapshot.file = [newFileItem];
+
+        await firebase
+          .firestore()
+          .collection("status")
+          .add({ statusSnapshot: newStatusSnapshot });
+
+        NotificationManager.success("Status Created...", "Success");
+      }
+    } catch (error) {
+      console.log("Error updating/creating status:", error);
+      NotificationManager.error("Error updating/creating status", "Error");
+    }
   };
+
   const updateVisitorArray = async (statusId) => {
     try {
       // Fetch the status document by ID
@@ -92,17 +148,19 @@ function Status({ adminId, adminPhoto, adminName, checkRecentUpdate }) {
         .get();
       const id = statusSnapshot.docs[0].id;
       await firebase.firestore().collection("status").doc(id).delete();
+
+      // Fetch status information again after deletion
+      fetchStatusInfo();
+
       setStatus((prevStatus) => prevStatus.filter((item) => item.id !== id));
-      setTimeout(() => {
-        NotificationManager.success("Deleted Successfully", "Success");
-      }, 1000);
+
+      NotificationManager.success("Deleted Successfully", "Success");
     } catch (error) {
-      setTimeout(() => {
-        NotificationManager.error("Error Occured", "Error");
-      }, 1000);
+      NotificationManager.error("Error Occurred", "Error");
       console.log(error);
     }
   };
+
   const fetchStatusInfo = useCallback(async () => {
     try {
       const statusSnapshot = await firebase
@@ -159,7 +217,10 @@ function Status({ adminId, adminPhoto, adminName, checkRecentUpdate }) {
               batch.delete(statusRef);
             });
             await batch.commit();
-            NotificationManager.success("Expired statuses deleted.", "Success");
+            NotificationManager.success(
+              "Expired statuses deleted....",
+              "Success"
+            );
           }
         }
       } catch (error) {
@@ -244,9 +305,13 @@ function Status({ adminId, adminPhoto, adminName, checkRecentUpdate }) {
             id="search-bar"
             placeholder="Search.."
             className={Styles.searchinput}
+            style={{ visibility: isModalOpen ? "hidden" : "visible" }}
           />
         </h1>
-        <hr className={Styles.horizontal} />
+        <hr
+          className={Styles.horizontal}
+          style={{ visibility: isModalOpen ? "hidden" : "visible" }}
+        />
       </div>
       <div className={Styles.statusList}>
         {isLoading ? (
@@ -259,7 +324,10 @@ function Status({ adminId, adminPhoto, adminName, checkRecentUpdate }) {
           </div>
         ) : (
           <>
-            <div className={Styles.MyStatus}>
+            <div
+              className={Styles.MyStatus}
+              style={{ visibility: isModalOpen ? "hidden" : "visible" }}
+            >
               <p>My Status</p>
               {status &&
                 status.length > 0 &&
@@ -280,7 +348,10 @@ function Status({ adminId, adminPhoto, adminName, checkRecentUpdate }) {
                 ))}
             </div>
 
-            <div className={Styles.recentUpdate}>
+            <div
+              className={Styles.recentUpdate}
+              style={{ visibility: isModalOpen ? "hidden" : "visible" }}
+            >
               <p>Recent Update</p>
               <hr />
               {otherStatus &&
@@ -299,7 +370,10 @@ function Status({ adminId, adminPhoto, adminName, checkRecentUpdate }) {
                   />
                 ))}
             </div>
-            <div className={Styles.viewedUpdate}>
+            <div
+              className={Styles.viewedUpdate}
+              style={{ visibility: isModalOpen ? "hidden" : "visible" }}
+            >
               <p>Viewed Update</p>
               <hr />
               {otherStatus &&
@@ -320,7 +394,10 @@ function Status({ adminId, adminPhoto, adminName, checkRecentUpdate }) {
             <div className={Styles.icons}>
               <button
                 className={Styles.photoSelect}
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => {
+                  toggleStatusViewer();
+                  setIsModalOpen(!isModalOpen);
+                }}
               >
                 <i className="fa-solid fa-camera-retro"></i>
               </button>
@@ -328,7 +405,10 @@ function Status({ adminId, adminPhoto, adminName, checkRecentUpdate }) {
 
             <Modal
               isOpen={isModalOpen}
-              onRequestClose={() => setIsModalOpen(false)}
+              onRequestClose={() => {
+                toggleStatusViewer();
+                setIsModalOpen(false);
+              }}
               className={Styles.customModalStyles}
               ariaHideApp={false}
             >
@@ -336,7 +416,7 @@ function Status({ adminId, adminPhoto, adminName, checkRecentUpdate }) {
                 type="file"
                 id="dpInput"
                 accept="image/*"
-                className={Styles.Imginput}
+                className={Styles.modalInput}
                 onChange={handleFileChange}
               />
               {imagePreview && (
@@ -351,9 +431,12 @@ function Status({ adminId, adminPhoto, adminName, checkRecentUpdate }) {
                 value={modalText}
                 onChange={(e) => setModalText(e.target.value)}
                 placeholder="Enter your status here"
+                className={Styles.modalInput}
               />
-              <button onClick={handleModalSubmit}>Submit</button>
-              <button onClick={() => setIsModalOpen(false)}>Cancel</button>
+              <div className={Styles.modalButtons}>
+                <button onClick={handleModalSubmit}>Submit</button>
+                <button onClick={() => setIsModalOpen(false)}>Cancel</button>
+              </div>
             </Modal>
           </>
         )}

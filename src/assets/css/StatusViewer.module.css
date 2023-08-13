@@ -12,6 +12,10 @@
   background: black;
   color: white;
 }
+.crousel-slider {
+  width: 54%;
+  border: 2px solid yellow;
+}
 @media screen and (max-width: 600px) {
   .container {
     background: black;
@@ -20,5 +24,37 @@
     left: -6rem;
     top: 4rem;
     background: black;
+  }
+  .statusImg {
+    max-width: 100%; /* Make sure the image doesn't stretch */
+    height: auto; /* Maintain the aspect ratio */
+    object-fit: contain; /* Center the image and maintain aspect ratio */
+  }
+}
+
+/* StatusViewer.module.css */
+.carouselContainer {
+  max-width: 100%;
+  display: flex;
+  justify-content: center; /* Center the carousel horizontally */
+  align-items: center; /* Center the carousel vertically */
+}
+
+.carouselItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statusImg {
+  max-width: 100%;
+  max-height: 100vh; /* Set the maximum height to the viewport height */
+  object-fit: contain;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  .statusImg {
+    max-height: 50vh; /* Adjust the maximum height as needed */
   }
 }

@@ -25,28 +25,37 @@ H1 {
   color: white;
 }
 .customModalStyles {
-  position: absolute;
-  inset: 10rem;
-  border: 1px solid rgb(204, 204, 204);
-  background: rgb(255, 255, 255);
-  overflow: auto;
-  border-radius: 4px;
-  outline: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 400px;
+  background-color: white;
   padding: 20px;
-  width: 50rem;
-  height: 30rem;
-  margin: auto;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  z-index: 9999; /* Use an even higher z-index value */
 }
 /* Add this to your Status.module.css */
 .imagePreview {
-  max-width: 100%;
-  max-height: 400px;
-  margin: 10px 0;
+  width: 100%;
+  height: 23rem;
+  max-width: 300px;
+  object-fit: contain;
+  margin-bottom: 10px;
 }
 
-.Imginput {
+.modalInput {
   width: 100%;
-  display: block;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
 }
 .ReactModal__Overlay {
   inset: 8rem !important;
@@ -110,6 +119,14 @@ H1 {
   }
   .photoSelect {
     right: 2rem;
+  }
+  .customModalStyles {
+    width: 90%;
+    max-width: 78%;
+  }
+
+  .imagePreview {
+    max-height: 200px;
   }
 }
 

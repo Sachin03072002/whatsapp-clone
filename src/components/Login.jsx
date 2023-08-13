@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Styles from "../assets/css/HomePage.module.css";
 import { useNavigate } from "react-router-dom";
 import firebase from "firebase/compat/app";
@@ -8,10 +8,16 @@ import {
   NotificationManager,
 } from "react-notifications";
 import "react-notifications/lib/notifications.css";
+import messages from "../assets/DIsplayQuotes/messages";
 function Login() {
   const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
+  const [showMessages, setShowMessages] = useState("");
   const navigate = useNavigate();
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * messages.length);
+    setShowMessages(messages[randomIndex]);
+  }, []);
   async function onSubmitHandler(event) {
     event.preventDefault();
 
@@ -67,8 +73,19 @@ function Login() {
   return (
     <div>
       <NotificationContainer />
+      {showMessages && (
+        <h4
+          className={`animate__animated animate__tada ${Styles.showMessages}`}
+        >
+          <i> {showMessages}</i>
+        </h4>
+      )}
       <form className={Styles.homeForm} onSubmit={onSubmitHandler}>
-        <h1>Welcome to Whatsapp</h1>
+        <h1>
+          <strong>VARTA - </strong>
+
+          <span>A Personal and Secure Chating Platform</span>
+        </h1>
         <input
           type="text"
           className={Styles.input}
